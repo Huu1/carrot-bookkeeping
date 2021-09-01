@@ -50,7 +50,6 @@ export const useRequest = (url: string, methods = 'GET', initialParam: any): { s
 
       try {
         const result = await http(url, methods, param);
-
         if (!didCancel) {
           dispatch({ type: 'FETCH_SUCCESS', payload: result });
         }

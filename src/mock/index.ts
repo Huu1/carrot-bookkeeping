@@ -1,5 +1,6 @@
-export default {
-  "GET /api/user/1": {
+// eslint-disable-next-line import/no-commonjs
+module.exports ={
+  "GET /api/user/list": {
     statusCode: 200,
     message: "success",
     data: [

@@ -1,6 +1,6 @@
 import Taro from "@tarojs/taro";
 
-const BASE_URL = 'http://localhost:9999';
+const BASE_URL = 'http://localhost:9527';
 
 // api请求封装
 const http = function (url: string, method: any, paramet: object) {
@@ -23,21 +23,16 @@ const http = function (url: string, method: any, paramet: object) {
         case 200:
           return resolve(res.data)
 
+        case 404:
+          return reject(res);
+
         case 10014:
-          // token校验失败
-          // Taro.navigateTo({
-          //   url: '/pages/login/index'
-          // })
-          // Taro.clearStorageSync()
           return reject(res.data)
 
         // default:
       }
     }).catch(err => {
-      // Taro.showToast({
-      //   title: '小程序数据请求失败',
-      //   icon: 'none'
-      // })
+      console.log('error',err);
       return reject(err)
     })
   })
