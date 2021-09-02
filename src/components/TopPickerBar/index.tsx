@@ -5,8 +5,8 @@ import "./index.less";
 
 const InitTime = formatDate(new Date());
 
-export const TopPickerBar = () => {
-
+export const TopPickerBar = (props) => {
+  const { style } = props;
   const [date, setDate] = useState<string>(InitTime);
 
   const onDateChange = (e) => {
@@ -22,9 +22,9 @@ export const TopPickerBar = () => {
   }
 
   return (
-    <View className='bar-wrap flex'>
+    <View className='bar-wrap flex' style={{ ...style }}>
       <View className='flex-column just-between left'>
-        <Text className='year'>{getDate(date).year}</Text>
+        <Text className='year'>{getDate(date).year}年</Text>
         <View className='picker-wrap'>
           <Picker fields='month' mode='date' value={date} onChange={onDateChange}>
             <View className='flex column-center'>

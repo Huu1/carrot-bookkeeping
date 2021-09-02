@@ -2,7 +2,7 @@ import { View, Text } from "@tarojs/components";
 import React from "react";
 import './index.less';
 
-export const DayPayItem = (props) => {
+export const PayItem = (props) => {
   const { date = '8月12日', week = '星期五', dayValue = '230', items = [
     {
       info: "晚餐",
@@ -18,6 +18,7 @@ export const DayPayItem = (props) => {
   return (
     <View className='container'>
       <View className='top-info flex'>
+        <Text className='icon iconfont icon-zhangdan'></Text>
         <View className='time'>{date}</View>
         <View className='week'>{week}</View>
         <View className='value'>
@@ -28,18 +29,19 @@ export const DayPayItem = (props) => {
       {
         items.map((item, index) => {
           return (
+
             <View key={index} className='item flex column-center'>
               <View className='icon'>
                 {/* {item.class} */}
 
-                <Text className='icon iconfont icon-lingshi'></Text>
+                <Text className='icon iconfont icon-tongxun'></Text>
               </View>
               <View className='item-right flex flex-1 just-between '>
                 <View className='info'>
                   {item.info}
                 </View>
                 <View className='value'>
-                  -{item.value}
+                  {item.value}
                 </View>
               </View>
 

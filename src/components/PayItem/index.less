@@ -1,0 +1,50 @@
+@import "../../style/variables.less";
+.container {
+  margin-bottom: 10px;
+  background-color: @home-secound-bgColor;
+  .top-info {
+    color: @font-secound-color;
+    padding: 15px 30px;
+    font-size: 24px;
+    .icon {
+      font-size: 34px;
+    }
+    .time {
+      margin: 0 14px;
+    }
+    .value {
+      margin-left: auto;
+    }
+  }
+  .item {
+    padding: 5px 36px;
+    border-bottom: 1px solid rgba(223, 223, 223, 0.3);
+    .icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: @home-primary-bgColor;
+      text-align: center;
+      line-height: 80px;
+      Text {
+        font-size: 40px;
+        color: @primary-color;
+      }
+    }
+    .item-right {
+      margin-left: 40px;
+      padding: 30px 0;
+      .info {
+        font-size: 28px;
+      }
+      .value {
+        font-weight: bold;
+        color: #ff6666;
+        font-size: 34px;
+      }
+    }
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}

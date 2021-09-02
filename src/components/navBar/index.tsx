@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Taro from "@tarojs/taro";
-import { View } from "@tarojs/components";
-import { useDispatch } from "react-redux";
+import { View, Text } from "@tarojs/components";
+import { useDispatch, useSelector } from "react-redux";
 
 
 import './index.less'
+import { Loading } from "../Loading";
 
 
 function NavBar(props) {
@@ -12,6 +13,7 @@ function NavBar(props) {
   const systemInfo = Taro.getSystemInfoSync();
 
   const dispatch = useDispatch();
+  const loading = useSelector((state: any) => state.app.isLoading);
 
   // 胶囊按钮位置信息
   const menuButtonInfo = Taro.getMenuButtonBoundingClientRect();
@@ -43,7 +45,7 @@ function NavBar(props) {
 
   return (
     <View>
-      <View className='nav-bar' style={{ height: `${info[0]}px`, background: `${info[4]}` }}>
+      <View className='nav-bar' style={{ height: `${info[0]}px`, }}>
         <View className='text'
           style={{
             height: `${info[3]}px`,
@@ -53,7 +55,11 @@ function NavBar(props) {
             color: `${info[5]}`,
             background: info['color'],
           }}
-        >{props.title}
+        >
+          {
+            loading && <Loading />
+          }
+          <Text style={{ marginLeft: '8px', display: 'inline-block' }}>{props.title}</Text>
         </View>
       </View>
       {/* 是否顶起顶部高度 */}
