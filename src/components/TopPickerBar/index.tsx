@@ -6,11 +6,12 @@ import "./index.less";
 const InitTime = formatDate(new Date());
 
 export const TopPickerBar = (props) => {
-  const { style } = props;
+  const { style, dateChangeHandle } = props;
   const [date, setDate] = useState<string>(InitTime);
 
   const onDateChange = (e) => {
-    setDate(e.detail.value)
+    setDate(e.detail.value);
+    dateChangeHandle(e.detail.value);
   }
 
   const getDate = (data = InitTime) => {

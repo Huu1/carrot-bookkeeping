@@ -1,0 +1,51 @@
+@import '../../style/variables.less';
+.loader-14 {
+  border-radius: 50%;
+  box-shadow: 0 1em 0 -.2em currentcolor;
+  position: relative;
+  -webkit-animation: loader-14 0.8s ease-in-out alternate infinite;
+  animation: loader-14 0.8s ease-in-out alternate infinite;
+  // -webkit-animation-delay: 0.2s;
+  // animation-delay: 0.2s;
+  top: -1em;
+  width: 30px;
+  height: 30px;
+  color: @primary-color;
+}
+.loader-14:after,
+.loader-14:before {
+  content: '';
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+  box-shadow: inherit;
+  -webkit-animation: inherit;
+  animation: inherit;
+}
+.loader-14:before {
+  left: -1em;
+  -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s;
+}
+.loader-14:after {
+  right: -1em;
+  -webkit-animation-delay: 0.08s;
+  animation-delay: 0.08s;
+}
+@-webkit-keyframes loader-14 {
+  0% {
+      box-shadow: 0 1.5em 0 -.2em currentcolor;
+  }
+  100% {
+      box-shadow: 0 1em 0 -.2em currentcolor;
+  }
+}
+@keyframes loader-14 {
+  0% {
+      box-shadow: 0 1.5em 0 -.2em currentcolor;
+  }
+  100% {
+      box-shadow: 0 1em 0 -.2em currentcolor;
+  }
+}

@@ -1,7 +1,9 @@
 export default {
   pages: [
     'pages/index/index',
+    'pages/Charts/index',
     'pages/userCenter/index',
+    'pages/AddPay/index',
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -16,6 +18,10 @@ export default {
       {
         pagePath: "pages/index/index",
         text: "首页",
+      },
+      {
+        pagePath: "pages/Charts/index",
+        text: "图表",
       },
       {
         pagePath: "pages/userCenter/index",

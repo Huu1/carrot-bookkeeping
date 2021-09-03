@@ -9,6 +9,8 @@ import { Loading } from "../Loading";
 
 
 function NavBar(props) {
+  const { back = false } = props;
+
   // 获取系统信息
   const systemInfo = Taro.getSystemInfoSync();
 
@@ -43,6 +45,10 @@ function NavBar(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const navigateBack = () => {
+    Taro.navigateBack();
+  }
+
   return (
     <View>
       <View className='nav-bar' style={{ height: `${info[0]}px`, }}>
@@ -57,15 +63,18 @@ function NavBar(props) {
           }}
         >
           {
-            loading && <Loading />
+            back && <Text className='back icon iconfont icon-fanhui' onClick={navigateBack}></Text>
+          }
+          {
+            // loading && <Loading />
           }
           <Text style={{ marginLeft: '8px', display: 'inline-block' }}>{props.title}</Text>
         </View>
       </View>
       {/* 是否顶起顶部高度 */}
-      {
-        props.seize ? <View className='content' style={{ height: `${info[0]}px` }}></View> : null
-      }
+      {/* {
+        props.seize ? <View className='content' style={{ height: `${info[0]}px` }}>sdfdf</View> : null
+      } */}
     </View>
   );
 }
