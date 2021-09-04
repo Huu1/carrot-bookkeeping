@@ -38,9 +38,11 @@ export const TopPickerBar = (props) => {
           </Picker>
         </View>
       </View>
-      <View className='row-center flex column-center flex-1'>
-        <View className='money-info'>共支出 </View>
-        <Text className='money'>500.23</Text>
+      <View className='row-center flex-column column-center flex-1'>
+        <View className='expend'>
+          <View className='money-info'>共16笔 合计</View>
+          <Text className='money'>500.23</Text>
+        </View>
       </View>
     </View>
   )
