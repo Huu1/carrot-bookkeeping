@@ -94,6 +94,38 @@ export function reducer(state: { value: string }, action): any {
       if (!bValue) return setValue('0');
       return setValue(bValue);
 
+    case 'finish':
+      if (value) {
+        const lChar = value.charAt(value.length - 1);
+        if (['.', '+', '-'].includes(lChar)) {
+          return { ...state };
+        } else {
+          if (value.includes('+')) {
+            let [first, last] = value.split('+');
+            let r;
+            if (first.includes('.') || last.includes('.')) {
+              r = (Number(first) + Number(last)).toFixed(2);
+            } else {
+              r = (Number(first) + Number(last));
+            }
+            return setValue(r + '');
+          } else {
+            let [first, last] = value.split('-');
+            let r;
+            if (value.charAt(0) === '-') {
+              let arr = value.slice(1, value.length).split('-');
+              first = 0 - Number(arr[0]) + '';
+              last = arr[1];
+            }
+            if (first.includes('.') || last.includes('.')) {
+              r = (Number(first) - Number(last)).toFixed(2);
+            } else {
+              r = (Number(first) - Number(last));
+            }
+            return setValue(r + '');
+          }
+        }
+      }
     case 'input':
       if (value === '0') {
         return setValue(payload);

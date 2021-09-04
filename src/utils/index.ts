@@ -1,4 +1,4 @@
-export const formatDate = (time) => {
+export const formatDate = (time, split = '-', hasDay = false,) => {
   // 此时的date是我们传入的时间戳
   if (typeof time === 'number') {
     time = new Date(time);
@@ -9,7 +9,10 @@ export const formatDate = (time) => {
   // const hh = DateTime.getHours().toString() //时
   // const mm = DateTime.getMinutes().toString() //分
   // const ss = DateTime.getSeconds().toString() //秒
-  return `${year}-${month}`
+  if (hasDay) {
+    return `${year}${split}${month}${split}${date}`
+  }
+  return `${year}${split}${month}`
 }
 
 export const repairZero = (month) => {

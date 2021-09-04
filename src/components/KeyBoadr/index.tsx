@@ -1,6 +1,7 @@
-import { View, Text, Input } from "@tarojs/components";
+import { View, Text, Input, Picker } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import React, { useEffect, useReducer, useRef, useState } from "react";
+import { formatDate } from "../../utils";
 import './index.less';
 import { reducer } from "./reducer";
 
@@ -15,18 +16,63 @@ export const BOARD_HEIGHT = '30vh';
 
 const Board = (props) => {
   const { clickHandle, value } = props;
-  return <View onClick={() => clickHandle({ value })} className='board flex row-center column-center'>
-    {value}
-  </View>
+  return (
+    <View onClick={() => clickHandle({ value })} className='board flex row-center column-center'>
+      {value}
+    </View>
+  )
+}
+
+const FinishBoard = (props) => {
+  const { clickHandle, value } = props;
+  return (
+    <View onClick={() => clickHandle()} className='board flex row-center column-center'>
+      {value}
+    </View>
+  )
+}
+
+const DateBoard = (props) => {
+  const { clickHandle, date } = props;
+  return (
+    <View className='board flex row-center column-center'>
+      <Picker fields='day' mode='date' value={date} onChange={(e) => clickHandle(formatDate(new Date(e.detail.value).valueOf(), '/', true))}>
+        <View className='flex column-center'>
+          {date}
+        </View>
+      </Picker>
+    </View>
+  )
 }
 
 export const KeyBoard = (props) => {
 
   const [input, setInput] = useState<{ value: string }>({ value: '0' });
 
+  const [boardStatus, setBoardStatus] = useState(false);
+
   const [{ value }, dispatch] = useReducer(reducer, { value: '0' })
 
+  const [date, setDate] = useState(formatDate(Date.now(), '/', true));
+
+  const finishInput = () => {
+    if (boardStatus) {
+      dispatch({ type: 'finish' });
+      return;
+    };
+    console.log(date, value);
+  }
+
   useEffect(() => {
+    if (value.includes('+') || value.includes('-')) {
+      setBoardStatus(true);
+    } else {
+      setBoardStatus(false);
+    }
+  }, [value])
+
+  useEffect(() => {
+
     switch (input.value) {
       case '+':
         dispatch({ type: 'add' });
@@ -59,13 +105,16 @@ export const KeyBoard = (props) => {
             return <View className='board-line flex ' key={index}>
               {
                 list.map(number => {
-                  return <Board clickHandle={setInput} key={number} value={number} />
+                  return number === 'DATE'
+                    ? <DateBoard clickHandle={setDate} date={date} />
+                    : number === '='
+                      ? <FinishBoard clickHandle={finishInput} value={boardStatus ? '=' : '完成'} />
+                      : <Board clickHandle={setInput} value={number} />
                 })
               }
             </View>
           })
         }
-        {/* <View className='confirm-aera'></View> */}
       </View>
     </View>
   )
