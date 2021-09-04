@@ -33,7 +33,7 @@ export const TopPickerBar = (props) => {
                 {getDate(date).month}
                 <Text className='month-word'>月</Text>
               </View>
-              <Text className='triangle'></Text>
+              <Text className='triangle icon iconfont icon-xiasanjiaoxing'></Text>
             </View>
           </Picker>
         </View>

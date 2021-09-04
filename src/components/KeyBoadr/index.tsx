@@ -12,13 +12,15 @@ const inputs = [
   ['.', '0', 'x', '=']
 ]
 
-export const BOARD_HEIGHT = '30vh';
+export const BOARD_HEIGHT = '33vh';
 
 const Board = (props) => {
   const { clickHandle, value } = props;
   return (
     <View onClick={() => clickHandle({ value })} className='board flex row-center column-center'>
-      {value}
+      {
+        value === 'x' ? <Text className='undo icon iconfont icon-chehui'></Text> : value
+      }
     </View>
   )
 }
@@ -26,7 +28,7 @@ const Board = (props) => {
 const FinishBoard = (props) => {
   const { clickHandle, value } = props;
   return (
-    <View onClick={() => clickHandle()} className='board flex row-center column-center'>
+    <View onClick={() => clickHandle()} className='board finish flex row-center column-center '>
       {value}
     </View>
   )
@@ -37,7 +39,7 @@ const DateBoard = (props) => {
   return (
     <View className='board flex row-center column-center'>
       <Picker fields='day' mode='date' value={date} onChange={(e) => clickHandle(formatDate(new Date(e.detail.value).valueOf(), '/', true))}>
-        <View className='flex column-center'>
+        <View className='flex column-center date'>
           {date}
         </View>
       </Picker>
@@ -46,22 +48,18 @@ const DateBoard = (props) => {
 }
 
 export const KeyBoard = (props) => {
+  const { confirmPay } = props;
 
   const [input, setInput] = useState<{ value: string }>({ value: '0' });
 
   const [boardStatus, setBoardStatus] = useState(false);
+  const [tip, setTip] = useState('');
 
   const [{ value }, dispatch] = useReducer(reducer, { value: '0' })
 
   const [date, setDate] = useState(formatDate(Date.now(), '/', true));
 
-  const finishInput = () => {
-    if (boardStatus) {
-      dispatch({ type: 'finish' });
-      return;
-    };
-    console.log(date, value);
-  }
+
 
   useEffect(() => {
     if (value.includes('+') || value.includes('-')) {
@@ -92,11 +90,27 @@ export const KeyBoard = (props) => {
     }
   }, [input])
 
+  const finishInput = () => {
+    if (boardStatus) {
+      dispatch({ type: 'finish' });
+      return;
+    };
+    confirmPay({
+      value,
+      date,
+      tip
+    })
+  }
+
+  const onInpushChange = (e) => {
+    setTip(e.detail.value)
+  }
+
   return (
     <View className='container flex-column just-between' style={{ height: BOARD_HEIGHT }}>
-      <View className='top flex border-box'>
-        <Text>备注：</Text>
-        <Input type='text' placeholder='请输入' maxlength={10} />
+      <View className='top flex border-box column-center'>
+        <Text className='tip' >备注：</Text>
+        <Input onInput={onInpushChange} type='text' className='input' placeholder='' maxlength={10} />
         <View className='value'>{value}</View>
       </View>
       <View className='main flex-1'>

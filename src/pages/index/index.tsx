@@ -64,7 +64,7 @@ const Index = () => {
   const AddPay = () => {
     return (
       <View className='addPay flex column-center row-center' onClick={goPayPage}>
-        <Text className='icon iconfont icon-xiazai49'></Text>
+        <Text className='icon iconfont icon-add'></Text>
       </View>
     )
   }

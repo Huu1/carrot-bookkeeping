@@ -68,7 +68,9 @@ function NavBar(props) {
           {
             // loading && <Loading />
           }
-          <Text style={{ marginLeft: '8px', display: 'inline-block' }}>{props.title}</Text>
+          <Text style={{ marginLeft: '8px', display: 'inline-block' }}>
+            {props.title}
+          </Text>
         </View>
       </View>
       {/* 是否顶起顶部高度 */}

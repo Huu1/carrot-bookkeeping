@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import Taro from "@tarojs/taro";
 import { View, Text } from '@tarojs/components'
 import './index.less'
 import { useAppData } from '../../utils/hooks';
@@ -51,19 +52,39 @@ const AddPay = () => {
 
   const [showKeyboard, setShowKeyboard] = useState(false);
 
-  const [classif, setClassif] = useState(null);
+  const [classify, setClassify] = useState(null);
 
   const clickHandle = (value) => {
-    setClassif(value);
+    setClassify(value);
     setShowKeyboard(true);
     setPageStyle(getPageStyle(navbarHeight, BOARD_HEIGHT))
+  }
+
+  const confirmPay = (data: { value: string, date: string, tip: string }) => {
+    const { tip, date, value } = data;
+    if (!value || value.charAt(value.length - 1) === '.' || value === '0') {
+      Taro.showToast({
+        title: '请输入正确的金额',
+        icon: 'none',
+        mask: true,
+        duration: 1500
+      })
+      return;
+    }
+    Taro.showLoading({
+      title: '加载中',
+    })
+    setTimeout(function () {
+      Taro.hideLoading();
+      Taro.navigateBack();
+    }, 2000)
   }
 
   return (
     <>
       <NavBar title={title} back />
       {
-        showKeyboard && <KeyBoard />
+        showKeyboard && <KeyBoard confirmPay={confirmPay} />
       }
       <View className='add-page-wrap border-box' style={pageStlye}>
         {
@@ -72,7 +93,7 @@ const AddPay = () => {
               <View key={lIndex} className='line-item flex column-cemter just-between'>
                 {
                   line.map((key, index) => {
-                    return <ClassItem clickHandle={clickHandle} name={key} text={classItem[key]} key={index} />
+                    return <ClassItem classify={classify} clickHandle={clickHandle} name={key} text={classItem[key]} key={index} />
                   })
                 }
               </View>
@@ -85,11 +106,11 @@ const AddPay = () => {
 }
 
 const ClassItem = (props) => {
-  const { clickHandle } = props;
+  const { clickHandle, classify } = props;
   const { name, text = '未知' } = props;
   return (
     <View onClick={() => clickHandle(name)} className='class-pay flex-column column-center'>
-      <View className='icon-pay flex column-center row-center'>
+      <View className={`icon-pay flex column-center row-center  ${classify === name ? 'checked' : ''}`}>
         <Text
           // eslint-disable-next-line react/jsx-curly-brace-presence
           className={`icon iconfont icon-${name}`}

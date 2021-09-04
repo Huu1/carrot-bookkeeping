@@ -1,8 +1,28 @@
+@import '../../style/variables.less';
 .board-line {
   flex: 1;
+  border-top: 1px solid @keyboad-border-color;
   .board {
+    transition: all .3s ease;
+    font-size: 32px;
+    &:active{
+      background-color: @keyboad-border-color;
+    }
     flex: 1;
     height: 100%;
+    border-right: 1px solid @keyboad-border-color;
+    .date{
+      font-size: 28px;
+    }
+    .undo{
+      font-size: 32px;
+    }
+  }
+  .board:last-child{
+    border-right: none;
+  }
+  .finish{
+    background-color: @primary-color;
   }
 }
 
@@ -10,12 +30,21 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: burlywood;
+  box-shadow: 0px 0px 2px #c9c9c9;
+  background-color: @home-primary-bgColor;
   .top {
-    padding: 10px 30px;
+    border-top: 1px solid @keyboad-border-color;
+    padding: 15px 30px;
     .value {
       margin-left: auto;
-      font-size: 28px;
+      font-size: 36px;
+      font-weight: bold;
+    }
+    .tip{
+      font-size: 24px;
+    }
+    .input{
+      font-size: 26px;
     }
   }
   .main {

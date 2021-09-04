@@ -18,12 +18,12 @@ export const PayItem = (props) => {
   return (
     <View className='container'>
       <View className='top-info flex'>
-        <Text className='icon iconfont icon-zhangdan'></Text>
+        <Text className='icon iconfont icon-huluobu'></Text>
         <View className='time'>{date}</View>
         <View className='week'>{week}</View>
         <View className='value'>
           <Text >支出：</Text>
-          <Text >{dayValue}</Text>
+          <Text className='number' >{dayValue}</Text>
         </View>
       </View>
       {
