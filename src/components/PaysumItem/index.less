@@ -1,0 +1,42 @@
+@import "../../style/variables.less";
+.container {
+  .border-bottom-light();
+  background-color: @home-secound-bgColor;
+  padding: 5px 36px;
+  .icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: @home-primary-bgColor;
+    text-align: center;
+    line-height: 80px;
+    Text {
+      font-size: 40px;
+      color: @primary-color;
+    }
+  }
+  .item-right {
+    margin-left: 40px;
+    padding: 15px 0;
+    .right {
+      margin-left: 18px;
+      .value {
+        font-weight: bold;
+        color: @font-expend-color;
+        font-size: 34px;
+      }
+      .sum {
+        margin-top: 10px;
+        font-size: 20px;
+        text-align: right;
+        color: @font-secound-color;
+      }
+    }
+    .info {
+      font-size: 28px;
+    }
+  }
+  &:last-child {
+    border-bottom: none;
+  }
+}

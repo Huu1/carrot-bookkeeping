@@ -68,7 +68,7 @@ function NavBar(props) {
           {
             // loading && <Loading />
           }
-          <Text style={{ marginLeft: '8px', display: 'inline-block' }}>
+          <Text style={{ marginLeft: '8px', display: 'inline-block' ,fontWeight:'bold'}}>
             {props.title}
           </Text>
         </View>

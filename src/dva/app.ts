@@ -3,7 +3,7 @@ export default {
   state: { // 初始化数据
     title: '胡萝卜记账',
     navbarHeight: 86,
-    isLoading: false
+    isLoading: false,
   },
   effects: {
     // 异步方法, 在这里可以用put调用同步的方法

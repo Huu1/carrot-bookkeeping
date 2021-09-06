@@ -2,7 +2,7 @@ import { View, Text } from "@tarojs/components";
 import React from "react";
 import './index.less';
 
-export const DayPayItem = (props) => {
+export const PaySumItem = (props) => {
   const { date = '8月12日', week = '星期五', dayValue = '230', items = [
     {
       info: "晚餐",
@@ -16,30 +16,28 @@ export const DayPayItem = (props) => {
     },
   ] } = props;
   return (
-    <View className='container'>
-      <View className='top-info flex'>
-        <View className='time'>{date}</View>
-        <View className='week'>{week}</View>
-        <View className='value'>
-          <Text >支出：</Text>
-          <Text >{dayValue}</Text>
-        </View>
-      </View>
+    <>
       {
         items.map((item, index) => {
           return (
-            <View key={index} className='item flex column-center'>
+            <View key={index} className='container flex column-center'>
               <View className='icon'>
-                {/* {item.class} */}
-
-                <Text className='icon iconfont icon-lingshi'></Text>
+                <Text className='icon iconfont icon-tongxun'></Text>
               </View>
               <View className='item-right flex flex-1 just-between '>
-                <View className='info'>
-                  {item.info}
+                <View className='left flex-1'>
+                  <Text className='info'>
+                    {item.info}
+                  </Text>
+                  <View></View>
                 </View>
-                <View className='value'>
-                  -{item.value}
+                <View className='right'>
+                  <View className='value'>
+                    {item.value}
+                  </View>
+                  <View className='sum'>
+                    6 笔
+                  </View>
                 </View>
               </View>
 
@@ -48,6 +46,6 @@ export const DayPayItem = (props) => {
         })
       }
 
-    </View>
+    </>
   )
 }

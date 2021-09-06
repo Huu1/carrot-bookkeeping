@@ -18,8 +18,7 @@ const Index = () => {
   // 页标题 和页顶高度
   const { title, navbarHeight } = useAppData();
 
-
-  const [url, setUrl] = useState("/api/month")
+  const [url, setUrl] = useState("/api/month");
 
   // 总览数据
   const { state } = useRequest(url, "GET", {});
@@ -45,7 +44,7 @@ const Index = () => {
   useEffect(() => {
     const { data: value } = data;
     if (value) {
-      setDailyPay(value);
+      setDailyPay([]);
     }
   }, [data])
 
@@ -54,12 +53,16 @@ const Index = () => {
     setUrl("/api/month?=" + Date.now())
   }
 
-  const goPayPage=()=>{
-    Taro.navigateTo({url:'/pages/AddPay/index'})
+  const goPayPage = () => {
+    Taro.navigateTo({ url: '/pages/AddPay/index' })
   }
 
   const Loading = () => isLoading && <View className='pageLoading'><PageLoading /></View>;
   const Error = () => isError && <View>error..</View>;
+  const Empty = () => !isLoading && dailyPay.length === 0 && <View className='flex-column column-center' style={{ paddingTop:'150px'}}>
+    <Text style={{fontSize:'80px'}} className='icon iconfont icon-wushuju'></Text>
+    <View style={{marginTop:'20px'}}>这里空空如也，赶紧记一笔吧</View>
+  </View>
 
   const AddPay = () => {
     return (
@@ -74,9 +77,10 @@ const Index = () => {
       <NavBar title={title} />
       <TopPickerBar dateChangeHandle={dateChangeHandle} style={style} />
       <AddPay />
-      <View className='page-container home-wrap' style={{ marginTop: `${navbarHeight + pickHeight}px` }}>
+      <View className={`page-container ${dailyPay.length ? 'home-wrap' : ''} `} style={{ marginTop: `${navbarHeight + pickHeight}px` }}>
         {Error()}
         {Loading()}
+        {Empty()}
         {
           dailyPay.map((item, index) => {
             return <PayItem
@@ -89,7 +93,6 @@ const Index = () => {
         }
       </View>
     </>
-
   )
 }
 
