@@ -4,6 +4,7 @@ export default {
     'pages/Charts/index',
     'pages/userCenter/index',
     'pages/AddPay/index',
+    "pages/TestPage/index",
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -26,6 +27,10 @@ export default {
       {
         pagePath: "pages/userCenter/index",
         text: "个人中心",
+      },
+      {
+        pagePath: "pages/TestPage/index",
+        text: "测试页",
       }
     ]
   }

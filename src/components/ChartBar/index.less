@@ -1,15 +1,20 @@
 @import "../../style/variables.less";
 .bar-container {
-  .border-bottom-light();
-  padding: 5px 30px;
+  .border-bottom-light(#c9c9c9);
+  padding: 5px 25px;
   box-sizing: border-box;
   background-color: white;
-  > View {
+  .action {
     width: 60px;
-    height: 40px;
     text-align: center;
     Text {
       font-size: 32px;
     }
+    &:last-child {
+      margin-left: auto;
+    }
+  }
+  .date{
+    margin-left: 30px;
   }
 }

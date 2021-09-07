@@ -44,7 +44,7 @@ const Index = () => {
   useEffect(() => {
     const { data: value } = data;
     if (value) {
-      setDailyPay([]);
+      setDailyPay(value);
     }
   }, [data])
 

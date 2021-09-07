@@ -1,5 +1,6 @@
 import { View, Text } from "@tarojs/components";
 import React from "react";
+import { SwipeAction } from "../SwipeAction";
 import './index.less';
 
 export const PayItem = (props) => {
@@ -29,27 +30,25 @@ export const PayItem = (props) => {
       {
         items.map((item, index) => {
           return (
-
-            <View key={index} className='item flex column-center'>
-              <View className='icon'>
-                {/* {item.class} */}
-
-                <Text className='icon iconfont icon-tongxun'></Text>
-              </View>
-              <View className='item-right flex flex-1 just-between '>
-                <View className='info'>
-                  {item.info}
+            <SwipeAction key={index} >
+              <View className='item flex column-center'>
+                <View className='icon'>
+                  <Text className='icon iconfont icon-tongxun'></Text>
                 </View>
-                <View className='value'>
-                  {item.value}
+                <View className='item-right flex flex-1 just-between '>
+                  <View className='info'>
+                    {item.info}
+                  </View>
+                  <View className='value'>
+                    {item.value}
+                  </View>
                 </View>
-              </View>
 
-            </View>
+              </View>
+            </SwipeAction>
           )
         })
       }
-
     </View>
   )
 }

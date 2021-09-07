@@ -1,7 +1,7 @@
 import { View, Text, Input, Picker } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import { formatDate } from "../../utils";
+import { dateFormat } from "../../utils";
 import './index.less';
 import { reducer } from "./reducer";
 
@@ -38,7 +38,7 @@ const DateBoard = (props) => {
   const { clickHandle, date } = props;
   return (
     <View className='board flex row-center column-center'>
-      <Picker fields='day' mode='date' value={date} onChange={(e) => clickHandle(formatDate(new Date(e.detail.value).valueOf(), '/', true))}>
+      <Picker fields='day' mode='date' value={date} onChange={(e) => clickHandle(dateFormat(new Date(e.detail.value), 'YYYY/mm/dd'))}>
         <View className='flex column-center date'>
           {date}
         </View>
@@ -57,7 +57,7 @@ export const KeyBoard = (props) => {
 
   const [{ value }, dispatch] = useReducer(reducer, { value: '0' })
 
-  const [date, setDate] = useState(formatDate(Date.now(), '/', true));
+  const [date, setDate] = useState(dateFormat(new Date(), 'YYYY/mm/dd'));
 
 
 

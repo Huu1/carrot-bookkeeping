@@ -6,8 +6,9 @@ import { ChartBar } from '../../components/ChartBar';
 import { PaySumItem } from '../../components/PaysumItem';
 import './index.less';
 import { LineChart } from '../../components/lineChart';
+import { SwipeAction } from '../../components/SwipeAction';
 
-const barHeight = 35;
+const barHeight = 40;
 
 const Charts = () => {
   const { title, navbarHeight } = useAppData();
@@ -46,11 +47,21 @@ const Charts = () => {
           <LineChart data={data} />
         </View>
         <View className='contianer'>
-          <PaySumItem />
-          <PaySumItem />
-          <PaySumItem />
-          <PaySumItem />
-          <PaySumItem />
+          <SwipeAction >
+            <PaySumItem />
+          </SwipeAction>
+          <SwipeAction >
+            <PaySumItem />
+          </SwipeAction>
+          <SwipeAction >
+            <PaySumItem />
+          </SwipeAction>
+          <SwipeAction >
+            <PaySumItem />
+          </SwipeAction>
+          <SwipeAction >
+            <PaySumItem />
+          </SwipeAction>
         </View>
 
       </View>

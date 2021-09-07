@@ -1,9 +1,9 @@
 import { View, Text, Picker } from "@tarojs/components";
 import React, { useState } from "react";
-import { formatDate, repairZero } from "../../utils";
+import { dateFormat, repairZero } from "../../utils";
 import "./index.less";
 
-const InitTime = formatDate(new Date());
+const InitTime = dateFormat(new Date(),'YYYY-mm');
 
 export const TopPickerBar = (props) => {
   const { style, dateChangeHandle } = props;

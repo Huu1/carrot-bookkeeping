@@ -23,6 +23,12 @@
           "pathName": "pages/Charts/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "测试页",
+          "pathName": "pages/TestPage/index",
+          "query": "",
+          "scene": null
         }
       ]
     }

@@ -9,11 +9,6 @@ export const PaySumItem = (props) => {
       value: "23.3",
       class: "dinner"
     },
-    {
-      info: "交通",
-      value: "2.3",
-      class: "traffic"
-    },
   ] } = props;
   return (
     <>
