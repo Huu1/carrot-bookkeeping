@@ -3,9 +3,6 @@
   background-color: @home-primary-bgColor;
   // padding-top: 20px;
   // box-sizing: border-box;
-  .contianer{
-    margin-top: 20px;
-  }
 }
 .bar-container {
   position: fixed;
@@ -16,4 +13,23 @@
 
 .chart-wrap{
   background-color: white;
+}
+
+.out-title{
+  .border-bottom-light();
+  position: relative;
+  margin-top: 20px;
+  padding: 20px 60px;
+  font-size: 28px;
+  background-color: white;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 30%;
+    bottom: 30%;
+    left: 5%;
+    width: 8px;
+    border-radius: 30px;
+    background-color: @primary-color;
+  }
 }

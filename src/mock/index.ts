@@ -13,54 +13,35 @@ module.exports = {
       {
         id: 1,
         date: "2021-9-1",
-        week:'星期五',
+        week: '星期五',
         days: [
           {
             info: "晚餐",
             value: "23.3",
-            class: "dinner"
+            class: "dinner",
+            id: "1"
           },
           {
             info: "交通",
             value: "2.3",
-            class: "traffic"
+            class: "traffic",
+            id: "2"
           },
         ],
       },
       {
         id: 2,
         date: "2021-9-2",
-        week:'星期三',
+        week: '星期三',
         days: [
           {
             info: "晚餐",
             value: "23.3",
-            class: "dinner"
+            class: "dinner",
+            id: "3"
           },
         ],
-      },
-      {
-        id: 3,
-        date: "2021-9-3",
-        week:'星期二',
-        days: [
-          {
-            info: "晚餐",
-            value: "23.3",
-            class: "dinner"
-          },
-          {
-            info: "饮食",
-            value: "2.3",
-            class: "traffic"
-          },
-          {
-            info: "娱乐",
-            value: "2.3",
-            class: "traffic"
-          },
-        ],
-      },
+      }
     ],
   },
 }

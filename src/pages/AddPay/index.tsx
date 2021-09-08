@@ -3,7 +3,7 @@ import Taro from "@tarojs/taro";
 import { View, Text } from '@tarojs/components'
 import './index.less'
 import { useAppData } from '../../utils/hooks';
-import NavBar from '../../components/navBar';
+import NavBar from '../../components/navBars';
 import { classItem } from '../../utils/json';
 import { BOARD_HEIGHT, KeyBoard } from '../../components/KeyBoadr';
 
@@ -36,8 +36,7 @@ const itemHandle = () => {
  */
 const getPageStyle = (navbarHeight: number, other: number | string = 0) => {
   return {
-    marginTop: navbarHeight + 'px',
-    height: `calc(100vh - ${navbarHeight}px - ${other})`
+    height: `calc(100vh  - ${other})`
   }
 }
 
@@ -82,7 +81,7 @@ const AddPay = () => {
 
   return (
     <>
-      <NavBar title={title} back />
+      {/* <NavBar title={title} back /> */}
       {
         showKeyboard && <KeyBoard confirmPay={confirmPay} />
       }

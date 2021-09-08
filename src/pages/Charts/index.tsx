@@ -1,7 +1,5 @@
 import React from 'react'
 import { View } from '@tarojs/components';
-import { useAppData } from '../../utils/hooks';
-import NavBar from '../../components/navBar';
 import { ChartBar } from '../../components/ChartBar';
 import { PaySumItem } from '../../components/PaysumItem';
 import './index.less';
@@ -11,11 +9,9 @@ import { SwipeAction } from '../../components/SwipeAction';
 const barHeight = 40;
 
 const Charts = () => {
-  const { title, navbarHeight } = useAppData();
-
   const style = {
-    top: navbarHeight + 'px',
-    height: barHeight + 'px'
+    height: barHeight + 'px',
+    top:'0'
   }
   const data = [
     {
@@ -34,18 +30,17 @@ const Charts = () => {
 
   return (
     <>
-      <NavBar title={title} />
       <ChartBar style={{ ...style }} />
-
       <View className='chartpage-wrap' style={
         {
-          marginTop: `${navbarHeight + barHeight}px`
+          marginTop: `${barHeight}px`
         }
       }
       >
         <View className='chart-wrap'>
           <LineChart data={data} />
         </View>
+        <View className='out-title'>支出排行榜</View>
         <View className='contianer'>
           <SwipeAction >
             <PaySumItem />

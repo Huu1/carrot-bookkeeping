@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Taro from "@tarojs/taro";
 import { View, Text } from '@tarojs/components';
-import NavBar from "../../components/navBar";
 import { PageLoading } from '../../components/PageLoading';
-import { useAppData } from '../../utils/hooks';
+import { useAppData, useNavInfo } from '../../utils/hooks';
 import { useRequest } from '../../utils/useHttp';
 import { TopPickerBar } from '../../components/TopPickerBar';
 import { PayItem } from '../../components/PayItem';
@@ -13,10 +12,9 @@ import './index.less';
 const pickHeight = 55;
 
 const Index = () => {
-  const dispatch = useDispatch();
-
-  // 页标题 和页顶高度
-  const { title, navbarHeight } = useAppData();
+  // const dispatch = useDispatch();
+  // const { title } = useAppData();
+  // const { appHeaderHeight, contentHeight } = useNavInfo();
 
   const [url, setUrl] = useState("/api/month");
 
@@ -24,22 +22,7 @@ const Index = () => {
   const { state } = useRequest(url, "GET", {});
   const { isLoading, isError, data } = state;
 
-  const [dailyPay, setDailyPay] = useState([]);
-
-
-  const style = {
-    top: navbarHeight + 'px',
-    height: pickHeight + 'px'
-  }
-
-  useEffect(() => {
-    dispatch({
-      type: 'app/setData',
-      payload: {
-        isLoading: isLoading
-      }
-    })
-  }, [isLoading, dispatch])
+  const [dailyPay, setDailyPay] = useState<any>([]);
 
   useEffect(() => {
     const { data: value } = data;
@@ -57,11 +40,15 @@ const Index = () => {
     Taro.navigateTo({ url: '/pages/AddPay/index' })
   }
 
+  const delCallback = (id) => {
+    setUrl("/api/month?=" + Date.now())
+  }
+
   const Loading = () => isLoading && <View className='pageLoading'><PageLoading /></View>;
   const Error = () => isError && <View>error..</View>;
-  const Empty = () => !isLoading && dailyPay.length === 0 && <View className='flex-column column-center' style={{ paddingTop:'150px'}}>
-    <Text style={{fontSize:'80px'}} className='icon iconfont icon-wushuju'></Text>
-    <View style={{marginTop:'20px'}}>这里空空如也，赶紧记一笔吧</View>
+  const Empty = () => !isLoading && dailyPay.length === 0 && <View className='flex-column column-center' style={{ paddingTop: '150px' }}>
+    <Text style={{ fontSize: '80px' }} className='icon iconfont icon-wushuju'></Text>
+    <View style={{ marginTop: '20px' }}>这里空空如也，赶紧记一笔吧</View>
   </View>
 
   const AddPay = () => {
@@ -74,24 +61,26 @@ const Index = () => {
 
   return (
     <>
-      <NavBar title={title} />
-      <TopPickerBar dateChangeHandle={dateChangeHandle} style={style} />
-      <AddPay />
-      <View className={`page-container ${dailyPay.length ? 'home-wrap' : ''} `} style={{ marginTop: `${navbarHeight + pickHeight}px` }}>
+      <View className={`page-container ${dailyPay.length ? 'home-wrap' : ''} `} >
+        <TopPickerBar style={{ height: `${pickHeight}px` }} dateChangeHandle={dateChangeHandle} />
         {Error()}
         {Loading()}
         {Empty()}
-        {
-          dailyPay.map((item, index) => {
-            return <PayItem
-              key={index}
-              date={item.date}
-              week={item.week}
-              items={item.days}
-            />
-          })
-        }
+        <View className='pay-list' style={{ marginTop: `${pickHeight}px` }}>
+          {
+            dailyPay.map((item, index) => {
+              return <PayItem
+                delCallback={delCallback}
+                key={item.id}
+                date={item.date}
+                week={item.week}
+                items={item.days}
+              />
+            })
+          }
+        </View>
       </View>
+      <AddPay />
     </>
   )
 }

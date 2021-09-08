@@ -8,10 +8,10 @@ export default {
   ],
   window: {
     backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: 'WeChat',
+    navigationBarBackgroundColor: '#ffc300',
+    navigationBarTitleText: '胡萝卜记账',
     navigationBarTextStyle: 'black',
-    navigationStyle: 'custom',
+    // navigationStyle: 'custom',
     backgroundColor: "#fff",
   },
   tabBar: {

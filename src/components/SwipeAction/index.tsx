@@ -4,7 +4,7 @@ import { throttle } from "../../utils";
 import './index.less';
 
 export const SwipeAction = (props) => {
-  const { children, onCallback } = props;
+  const { onCallback, id } = props;
   const ref = useRef(null);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export const SwipeAction = (props) => {
       const { clientX } = e.touches[0];
       let moveLength = clientX - start;
       if (moveLength < -50) {
-        refs.style.transform = `translateX(-150rpx)`
+        refs.style.transform = `translateX(-150rpx)`;
       } else if (moveLength > 50) {
         refs.style.transform = `translateX(0)`
       }
@@ -27,7 +27,7 @@ export const SwipeAction = (props) => {
     const up = (e) => {
       start = 0;
     }
-    const move = throttle(_move, 150)
+    const move = throttle(_move, 10)
     refs.addEventListener('touchstart', touchstart);
     refs.addEventListener('touchmove', move);
     refs.addEventListener('toucheup', up);
@@ -37,13 +37,14 @@ export const SwipeAction = (props) => {
       refs.removeEventListener('toucheup', up);
     }
   }, [])
+
   return (
     <View className='swipe-wrap'>
       <View className='swipe-container' ref={ref}>
         <View className='content'>
-          {children}
+          {props.children}
         </View>
-        <View className='action-aera flex row-center column-center' onClick={onCallback}>删除</View>
+        <View className='action-aera flex row-center column-center' onClick={() => onCallback(id)}>删除</View>
       </View>
     </View>
 

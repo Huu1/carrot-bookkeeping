@@ -1,13 +1,13 @@
 import { View, Text, Picker } from "@tarojs/components";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { dateFormat } from "../../utils";
 import { CButton } from "../Button";
 import './index.less';
 
 const modeList = ['月', '年'];
 
-const pickerStyle={
-  paddingTop:'1px'
+const pickerStyle = {
+  paddingTop: '1px'
 }
 
 export const ChartBar = (props) => {
@@ -31,10 +31,11 @@ export const ChartBar = (props) => {
   return (
     <View style={{ ...style }} className='bar-container flex  column-center just-between'>
       <View className='action'>
-        <Text className='triangle icon iconfont icon-filterguolv'></Text>
+        {/* <Text className='triangle icon iconfont icon-filterguolv'></Text> */}
+        <Text >支出：200.00</Text>
       </View>
       <View className='date flex'>
-        <Picker mode='selector' style={{marginRight:'10px',...pickerStyle}} range={modeList} onChange={modeOnChange}>
+        <Picker mode='selector' style={{ marginRight: '10px', ...pickerStyle }} range={modeList} onChange={modeOnChange}>
           <CButton>{modeList[mode]}</CButton>
         </Picker>
         {
@@ -49,9 +50,9 @@ export const ChartBar = (props) => {
             </Picker>
         }
       </View>
-      <View className='action'>
+      {/* <View className='action'>
         <Text className='triangle icon iconfont icon-sousuo'></Text>
-      </View>
+      </View> */}
     </View>
   )
 }
