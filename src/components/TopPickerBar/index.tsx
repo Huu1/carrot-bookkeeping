@@ -3,11 +3,23 @@ import React, { useState } from "react";
 import { dateFormat, repairZero } from "../../utils";
 import "./index.less";
 
-const InitTime = dateFormat(new Date(),'YYYY-mm');
+const InitTime = dateFormat(new Date(), 'YYYY-mm');
+
+const scaleLastNum = (data: number) => {
+  let result = data.toFixed(2);
+  const [first = '0.', last = '00'] = result.toString().split('.');
+  return {
+    first: first + '.',
+    last
+  }
+}
 
 export const TopPickerBar = (props) => {
   const { style, dateChangeHandle } = props;
   const [date, setDate] = useState<string>(InitTime);
+
+  const value = 234.23;
+  const value2 = 0.23;
 
   const onDateChange = (e) => {
     setDate(e.detail.value);
@@ -38,10 +50,23 @@ export const TopPickerBar = (props) => {
           </Picker>
         </View>
       </View>
-      <View className='row-center flex-column column-center flex-1'>
-        <View className='expend'>
-          <View className='money-info'>共16笔 合计</View>
-          <Text className='money'>500.23</Text>
+      <View className='row-center  flex just-around flex-1'>
+        <View className='expend flex-column just-between'>
+          <View className='money-info'>合计支出</View>
+          <View className='money'>
+            <Text>{scaleLastNum(value).first}</Text>
+            {scaleLastNum(value).last}
+          </View>
+        </View>
+        <View className='expend flex-column just-between'>
+          <View className='money-info'>
+            <Text >月预算剩余</Text>
+            <Text className='icon iconfont icon-shezhi'></Text>
+          </View>
+          <View className='money'>
+            <Text>{scaleLastNum(value2).first}</Text>
+            {scaleLastNum(value2).last}
+          </View>
         </View>
       </View>
     </View>

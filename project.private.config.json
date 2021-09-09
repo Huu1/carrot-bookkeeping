@@ -29,6 +29,12 @@
           "pathName": "pages/TestPage/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "个人中心",
+          "pathName": "pages/userCenter/index",
+          "query": "",
+          "scene": null
         }
       ]
     }

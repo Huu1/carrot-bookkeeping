@@ -1,0 +1,68 @@
+@import '../../style/variables.less';
+.user-container {
+  background-color: @home-primary-bgColor;
+  height: 100vh;
+  > View {
+    background-color: white;
+  }
+  .user-info {
+    padding: 40px 60px;
+    .border-bottom-light();
+    .avatar {
+      height: 105px;
+      width: 105px;
+      border-radius: 50%;
+      overflow: hidden;
+      Image {
+        max-width: 100%;
+        height: 100%;
+      }
+    }
+    .info {
+      text-align: left;
+      padding-left: 30px;
+      .username {
+        font-size: 38px;
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+      .appinfo {
+        font-size: 24px;
+        color: cadetblue;
+      }
+    }
+  }
+  .menu {
+    padding: 20px 80px;
+    .menu-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      .number {
+        font-size: 38px;
+        margin-bottom: 2px;
+      }
+      .text {
+        font-size: 24px;
+      }
+    }
+  }
+  .action-aera{
+    margin: 20px 0;
+    padding: 30px 50px;
+    .icon{
+      font-size: 40px;
+    }
+    View {
+      margin-top: 20px;
+    }
+  }
+  .share {
+    padding: 40px 20%;
+    background-color: @home-primary-bgColor;
+    Text {
+      font-size: 32px;
+    }
+  }
+}

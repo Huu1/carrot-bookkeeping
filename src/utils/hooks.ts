@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import React, {useState, useEffect} from 'react'
 import Taro from '@tarojs/taro';
+import React, { useState, useEffect } from 'react';
 
 interface INavInfo {
   statusBarHeight: number
@@ -9,7 +9,7 @@ interface INavInfo {
   appHeaderHeight: number
   marginSides: number
   capsuleWidth: number
-  capsuleHeight:number
+  capsuleHeight: number
   capsuleLeft: number
   contentHeight: number
   screenHeight: number
@@ -64,6 +64,18 @@ export function useNavInfo(): INavInfo {
       windowHeight: windowHeight,
     })
   }, [])
-  
+
   return navInfo
 }
+
+// export function useBgcolor(color: string = '#FFFFFF') {
+//   const [_color, setColor] = useState(color);
+//   useEffect(() => {
+//     Taro.setBackgroundColor({
+//       backgroundColor: '#FFB6C1',
+//     })
+//   }, [_color])
+//   return {
+//     setColor
+//   }
+// }
