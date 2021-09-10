@@ -17,13 +17,13 @@ module.exports = {
         days: [
           {
             info: "晚餐",
-            value: "23.3",
+            value: 20.3,
             class: "dinner",
             id: "1"
           },
           {
             info: "交通",
-            value: "2.3",
+            value: 2.3,
             class: "traffic",
             id: "2"
           },
@@ -36,7 +36,7 @@ module.exports = {
         days: [
           {
             info: "晚餐",
-            value: "23.3",
+            value: 20.3,
             class: "dinner",
             id: "3"
           },

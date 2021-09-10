@@ -1,24 +1,25 @@
 import { View, Text } from "@tarojs/components";
 import Taro from "@tarojs/taro";
-import React, { useCallback, useState } from "react";
+import React from "react";
+import { Money } from "../Money";
 import { SwipeAction } from "../SwipeAction";
 import './index.less';
 
 export const PayItem = (props) => {
-  const { date = '8月12日', week = '星期五', dayValue = '230', items = [
+  const { date = '8月12日', week = '星期五', dayValue = 230, items = [
     {
       info: "晚餐",
-      value: "23.3",
+      value: 23.3,
       class: "dinner",
       id: '1'
     },
     {
       info: "交通",
-      value: "2.3",
+      value: 2.3,
       class: "traffic",
       id: '2'
     },
-  ] ,delCallback} = props;
+  ], delCallback } = props;
 
   const onCallback = (id) => {
     Taro.showModal({
@@ -31,12 +32,7 @@ export const PayItem = (props) => {
           })
           setTimeout(function () {
             delCallback(id);
-            Taro.hideLoading()
-            Taro.showToast({
-              title: '成功',
-              icon: 'success',
-              duration: 1000
-            })
+            Taro.hideLoading();
           }, 2000)
         } else if (res.cancel) {
           console.log('用户点击取消')
@@ -69,7 +65,7 @@ export const PayItem = (props) => {
                     {item.info}
                   </View>
                   <View className='value'>
-                    {item.value}
+                    <Money value={item.value} />
                   </View>
                 </View>
               </View>

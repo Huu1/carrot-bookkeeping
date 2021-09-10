@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View } from '@tarojs/components';
 import { ChartBar } from '../../components/ChartBar';
 import { PaySumItem } from '../../components/PaysumItem';
@@ -11,22 +11,49 @@ const barHeight = 40;
 const Charts = () => {
   const style = {
     height: barHeight + 'px',
-    top:'0'
+    top: '0'
   }
   const data = [
     {
-      item: '餐饮',
-      value: 141
+      info: "晚餐",
+      value: 32434,
+      class: "dinner",
+      sum: 3,
+      ratio: 0.25
     },
     {
-      item: '餐饮2',
-      value: 23
+      info: "交通",
+      value: 34,
+      class: "交通",
+      sum: 23,
+      ratio: 0.46
     },
     {
-      item: '餐饮3',
-      value: 4
+      info: "消费1",
+      value: 555,
+      class: "交通",
+      ratio: 0.12,
+      sum: 22,
+    },
+    {
+      info: "消费2",
+      value: 22,
+      class: "交通",
+      ratio: 1,
+      sum: 220,
+    },
+    {
+      info: "消费3",
+      value: 55,
+      class: "交通",
+      ratio: 0,
+      sum: 110,
     },
   ];
+
+  useEffect(() => {
+
+  }, [])
 
   return (
     <>
@@ -38,25 +65,15 @@ const Charts = () => {
       }
       >
         <View className='chart-wrap'>
-          <LineChart data={data} />
+          <LineChart data={data.map(({ info, value }) => ({ info, value }))} />
         </View>
         <View className='out-title'>支出排行榜</View>
         <View className='contianer'>
-          <SwipeAction >
-            <PaySumItem />
-          </SwipeAction>
-          <SwipeAction >
-            <PaySumItem />
-          </SwipeAction>
-          <SwipeAction >
-            <PaySumItem />
-          </SwipeAction>
-          <SwipeAction >
-            <PaySumItem />
-          </SwipeAction>
-          <SwipeAction >
-            <PaySumItem />
-          </SwipeAction>
+          {
+            data.map((item, index) => {
+              return <PaySumItem item={item} key={index} />
+            })
+          }
         </View>
 
       </View>

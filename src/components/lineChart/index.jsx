@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+// import F2 from "@antv/f2/lib/index-all";
 import F2 from "@antv/f2";
 import F2Canvas from "../ChartCanvas/index";
 // import fixF2 from './fix_f2'
@@ -21,8 +22,72 @@ const initChart = (config) => {
       tickCount: 5
     }
   });
-  chart.interval().position('item*value');
+  chart.tooltip();
+  chart.interval().position('info*value').color('#ffc300');
   chart.render();
+
+  // const data = [{
+  //   name: '股票类',
+  //   percent: 83.59,
+  //   a: '1'
+  // }, {
+  //   name: '债券类',
+  //   percent: 2.17,
+  //   a: '1'
+  // }, {
+  //   name: '现金类',
+  //   percent: 14.24,
+  //   a: '1'
+  // }];
+  
+  // const map = {};
+  // data.forEach(function(obj) {
+  //   map[obj.name] = obj.percent + '%';
+  // });
+  
+  // // const chart = new F2.Chart({
+  // //   id: 'container',
+  // //   pixelRatio: window.devicePixelRatio,
+  // //   padding: [ 20, 'auto' ]
+  // // });
+  // chart.source(data, {
+  //   percent: {
+  //     formatter: function formatter(val) {
+  //       return val + '%';
+  //     }
+  //   }
+  // });
+  // chart.pieLabel({
+  //   sidePadding: 40,
+  //   // eslint-disable-next-line no-shadow
+  //   label1: function label1(data, color) {
+  //     return {
+  //       text: data.name,
+  //       fill: color
+  //     };
+  //   },
+  //   // eslint-disable-next-line no-shadow
+  //   label2: function label2(data) {
+  //     return {
+  //       text: data.percent+'%',
+  //       // fill: '#808080',
+  //       // fontWeight: 'bold'
+  //     };
+  //   }
+  // });
+  // chart.tooltip(false);
+  // chart.legend(false);
+  // chart.coord('polar', {
+  //   transposed: true,
+  //   innerRadius: 0.7,
+  //   radius: 0.85
+  // });
+  // chart.axis(false);
+  // chart.interval()
+  //   .position('a*percent')
+  //   .color('name', [ '#FE5D4D', '#3BA4FF', '#737DDE' ])
+  //   .adjust('stack');
+  // chart.render();
 
 
   // 一定要返回chart实例哦
@@ -44,7 +109,7 @@ export const LineChart = (props) => {
   useEffect(() => {
     if (chart) {
       chart.changeData(data);
-      chart.render()
+      chart.render();
     }
   }, [data, chart])
 

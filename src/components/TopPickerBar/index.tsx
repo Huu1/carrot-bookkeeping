@@ -1,24 +1,16 @@
 import { View, Text, Picker } from "@tarojs/components";
 import React, { useState } from "react";
 import { dateFormat, repairZero } from "../../utils";
+import { Money } from "../Money";
 import "./index.less";
 
 const InitTime = dateFormat(new Date(), 'YYYY-mm');
-
-const scaleLastNum = (data: number) => {
-  let result = data.toFixed(2);
-  const [first = '0.', last = '00'] = result.toString().split('.');
-  return {
-    first: first + '.',
-    last
-  }
-}
 
 export const TopPickerBar = (props) => {
   const { style, dateChangeHandle } = props;
   const [date, setDate] = useState<string>(InitTime);
 
-  const value = 234.23;
+  const value = 234.2;
   const value2 = 0.23;
 
   const onDateChange = (e) => {
@@ -53,9 +45,8 @@ export const TopPickerBar = (props) => {
       <View className='row-center  flex just-around flex-1'>
         <View className='expend flex-column just-between'>
           <View className='money-info'>合计支出</View>
-          <View className='money'>
-            <Text>{scaleLastNum(value).first}</Text>
-            {scaleLastNum(value).last}
+          <View className='value'>
+            <Money value={value} lastScale />
           </View>
         </View>
         <View className='expend flex-column just-between'>
@@ -63,9 +54,8 @@ export const TopPickerBar = (props) => {
             <Text >月预算剩余</Text>
             <Text className='icon iconfont icon-shezhi'></Text>
           </View>
-          <View className='money'>
-            <Text>{scaleLastNum(value2).first}</Text>
-            {scaleLastNum(value2).last}
+          <View className='value'>
+            <Money value={value2} lastScale />
           </View>
         </View>
       </View>
