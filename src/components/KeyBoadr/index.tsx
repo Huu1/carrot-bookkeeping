@@ -1,6 +1,5 @@
 import { View, Text, Input, Picker } from "@tarojs/components";
-import Taro from "@tarojs/taro";
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { dateFormat } from "../../utils";
 import './index.less';
 import { reducer } from "./reducer";
@@ -12,7 +11,9 @@ const inputs = [
   ['.', '0', 'x', '=']
 ]
 
-export const BOARD_HEIGHT = '33vh';
+const initDate = dateFormat(new Date(), 'YYYY/mm/dd');
+
+export const BOARD_HEIGHT = '35vh';
 
 const Board = (props) => {
   const { clickHandle, value } = props;
@@ -40,7 +41,7 @@ const DateBoard = (props) => {
     <View className='board flex row-center column-center'>
       <Picker fields='day' mode='date' value={date} onChange={(e) => clickHandle(dateFormat(new Date(e.detail.value), 'YYYY/mm/dd'))}>
         <View className='flex column-center date'>
-          {date}
+          {initDate === date ? '今天' : date}
         </View>
       </Picker>
     </View>
@@ -57,9 +58,7 @@ export const KeyBoard = (props) => {
 
   const [{ value }, dispatch] = useReducer(reducer, { value: '0' })
 
-  const [date, setDate] = useState(dateFormat(new Date(), 'YYYY/mm/dd'));
-
-
+  const [date, setDate] = useState(initDate);
 
   useEffect(() => {
     if (value.includes('+') || value.includes('-')) {
@@ -109,8 +108,8 @@ export const KeyBoard = (props) => {
   return (
     <View className='container flex-column just-between' style={{ height: BOARD_HEIGHT }}>
       <View className='top flex border-box column-center'>
-        <Text className='tip' >备注：</Text>
-        <Input onInput={onInpushChange} type='text' className='input' placeholder='' maxlength={10} />
+        <Text className='tip icon iconfont icon-beizhu'></Text>
+        <Input onInput={onInpushChange} type='text' className='input' placeholder='备注一下' maxlength={10} />
         <View className='value'>{value}</View>
       </View>
       <View className='main flex-1'>

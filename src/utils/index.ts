@@ -52,3 +52,24 @@ export function debounce(fun, delay) {
       }, delay)
   }
 }
+
+
+/**
+ * [x,x,...] => [[x,x,x,x],[x,x,x,x],....]
+ * @returns 
+ */
+ export const splitLineGroup = (Items,lineItem: number = 4) => {
+  const result = [];
+  const origin = Object.keys(Items);
+  let temp = [];
+  origin.forEach((key, index) => {
+    temp.push(key);
+    if (temp.length === lineItem) {
+      result.push([...temp]);
+      temp = [];
+    }
+  })
+  result.push([...temp]);
+  temp = null;
+  return result;
+}

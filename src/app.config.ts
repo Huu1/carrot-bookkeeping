@@ -4,6 +4,7 @@ export default {
     'pages/Charts/index',
     'pages/userCenter/index',
     'pages/AddPay/index',
+    'pages/AddExpenditure/index',
     "pages/TestPage/index",
   ],
   window: {
@@ -28,6 +29,10 @@ export default {
         pagePath: "pages/userCenter/index",
         text: "个人中心",
       },
+      // {
+      //   pagePath: "pages/AddExpenditure/index",
+      //   text: "新增支出",
+      // },
       {
         pagePath: "pages/TestPage/index",
         text: "测试页",

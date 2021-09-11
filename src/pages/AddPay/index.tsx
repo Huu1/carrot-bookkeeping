@@ -6,27 +6,8 @@ import { useAppData } from '../../utils/hooks';
 import NavBar from '../../components/navBars';
 import { classItem } from '../../utils/json';
 import { BOARD_HEIGHT, KeyBoard } from '../../components/KeyBoadr';
+import { splitLineGroup } from '../../utils';
 
-/**
- * [x,x,...] => [[x,x,x,x],[x,x,x,x],....]
- * @returns 
- */
-const itemHandle = () => {
-  const lineItem = 4;
-  const result = [];
-  const origin = Object.keys(classItem);
-  let temp = [];
-  origin.forEach((key, index) => {
-    temp.push(key);
-    if (temp.length === lineItem) {
-      result.push([...temp]);
-      temp = [];
-    }
-  })
-  result.push([...temp]);
-  temp = null;
-  return result;
-}
 
 /**
  * 
@@ -44,7 +25,7 @@ const AddPay = () => {
   const { title, navbarHeight } = useAppData();
 
   // const
-  const [classList] = useState(itemHandle());
+  const [classList] = useState(splitLineGroup(classItem));
 
 
   const [pageStlye, setPageStyle] = useState(getPageStyle(navbarHeight))

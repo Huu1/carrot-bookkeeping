@@ -35,6 +35,12 @@
           "pathName": "pages/userCenter/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "新增支出",
+          "pathName": "pages/AddExpenditure/index",
+          "query": "",
+          "scene": null
         }
       ]
     }

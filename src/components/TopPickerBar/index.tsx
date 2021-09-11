@@ -50,8 +50,8 @@ export const TopPickerBar = (props) => {
           </View>
         </View>
         <View className='expend flex-column just-between'>
-          <View className='money-info'>
-            <Text >月预算剩余</Text>
+          <View className='money-info flex column-center'>
+            <View >月预算剩余</View>
             <Text className='icon iconfont icon-shezhi'></Text>
           </View>
           <View className='value'>

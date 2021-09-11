@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import Taro from "@tarojs/taro";
 import { View, Text } from '@tarojs/components';
 import { PageLoading } from '../../components/PageLoading';
-import { useAppData, useNavInfo } from '../../utils/hooks';
 import { useRequest } from '../../utils/useHttp';
 import { TopPickerBar } from '../../components/TopPickerBar';
 import { PayItem } from '../../components/PayItem';
@@ -12,9 +10,6 @@ import './index.less';
 const pickHeight = 55;
 
 const Index = () => {
-  // const dispatch = useDispatch();
-  // const { title } = useAppData();
-  // const { appHeaderHeight, contentHeight } = useNavInfo();
 
   const [url, setUrl] = useState("/api/month");
 
@@ -37,7 +32,7 @@ const Index = () => {
   }
 
   const goPayPage = () => {
-    Taro.navigateTo({ url: '/pages/AddPay/index' })
+    Taro.navigateTo({ url: '/pages/AddExpenditure/index' })
   }
 
   const delCallback = (id) => {
