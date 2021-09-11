@@ -1,4 +1,5 @@
 import { View, Text, Input, Picker } from "@tarojs/components";
+import Taro from "@tarojs/taro";
 import React, { useEffect, useReducer, useState } from "react";
 import { dateFormat } from "../../utils";
 import './index.less';
@@ -105,6 +106,11 @@ export const KeyBoard = (props) => {
     setTip(e.detail.value)
   }
 
+  const onBoardClickHandle = (data) => {
+    Taro.vibrateShort();
+    setInput(data);
+  }
+
   return (
     <View className='container flex-column just-between' style={{ height: BOARD_HEIGHT }}>
       <View className='top flex border-box column-center'>
@@ -122,7 +128,7 @@ export const KeyBoard = (props) => {
                     ? <DateBoard clickHandle={setDate} date={date} />
                     : number === '='
                       ? <FinishBoard clickHandle={finishInput} value={boardStatus ? '=' : '完成'} />
-                      : <Board clickHandle={setInput} value={number} />
+                      : <Board clickHandle={onBoardClickHandle} value={number} />
                 })
               }
             </View>

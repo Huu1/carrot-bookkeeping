@@ -15,6 +15,7 @@ const AddExpenditure = () => {
   const [classify, setClassify] = useState('canyin');
 
   const clickHandle = (value) => {
+    Taro.vibrateShort();
     setClassify(value);
   }
 

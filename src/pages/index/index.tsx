@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Taro from "@tarojs/taro";
+import Taro, { useReady } from "@tarojs/taro";
 import { View, Text } from '@tarojs/components';
 import { PageLoading } from '../../components/PageLoading';
 import { useRequest } from '../../utils/useHttp';
@@ -18,6 +18,24 @@ const Index = () => {
   const { isLoading, isError, data } = state;
 
   const [dailyPay, setDailyPay] = useState<any>([]);
+
+  useReady(()=>{
+    Taro.login({
+      success: function (res) {
+        if (res.code) {
+          //发起网络请求
+          Taro.request({
+            url: 'https://test.com/onLogin',
+            data: {
+              code: res.code
+            }
+          })
+        } else {
+          console.log('登录失败！' + res.errMsg)
+        }
+      }
+    })
+  })
 
   useEffect(() => {
     const { data: value } = data;

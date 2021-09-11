@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Swiper, SwiperItem } from '@tarojs/components';
+import { View, Text, Swiper, SwiperItem, MovableArea ,MovableView} from '@tarojs/components';
 import NavBar from "../../components/NavBar";
 import { useAppData, useNavInfo } from '../../utils/hooks';
 import { TopPickerBar } from '../../components/TopPickerBar';
@@ -50,6 +50,10 @@ const Index = () => {
             <View className='demo-text-3'>3</View>
           </SwiperItem>
         </Swiper>
+
+        <MovableArea style='height: 200px; width: 200px; background: red;'>
+          <MovableView style='height: 50px; width: 50px; background: blue;' direction='all'>旅行的意义</MovableView>
+        </MovableArea>
       </View>
     </>
   )
