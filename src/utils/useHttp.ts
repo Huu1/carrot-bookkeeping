@@ -1,3 +1,4 @@
+import Taro from '@tarojs/taro';
 import React, { useEffect, useReducer, useState } from "react";
 import http from "./http";
 
@@ -33,8 +34,9 @@ const dataFetchReducer = (state: any, action: any) => {
   }
 };
 
-export const useRequest = (url: string, methods = 'GET', initialParam: any): { state: IState, setParam: React.Dispatch<any> } => {
+export const useRequest = (initUrl: string, methods = 'GET', initialParam: any): { state: IState, setParam: React.Dispatch<any>, setUrl: React.Dispatch<string> } => {
   const [param, setParam] = useState(initialParam);
+  const [url, setUrl] = useState(initUrl);
 
   const [state, dispatch] = useReducer(dataFetchReducer, {
     isLoading: false,
@@ -55,6 +57,9 @@ export const useRequest = (url: string, methods = 'GET', initialParam: any): { s
         }
       } catch (error) {
         if (!didCancel) {
+          Taro.showToast({
+            title: error.msg
+          })
           dispatch({ type: 'FETCH_FAILURE' });
         }
       }
@@ -67,5 +72,5 @@ export const useRequest = (url: string, methods = 'GET', initialParam: any): { s
     };
   }, [url, param, methods]);
 
-  return { state, setParam };
+  return { state, setParam, setUrl };
 };

@@ -1,25 +1,16 @@
 import { View, Text } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import React from "react";
+import { weekMap } from "../../utils/json";
 import { Money } from "../Money";
 import { SwipeAction } from "../SwipeAction";
 import './index.less';
 
-export const PayItem = (props) => {
-  const { date = '8月12日', week = '星期五', dayValue = 230, items = [
-    {
-      info: "晚餐",
-      value: 23.3,
-      class: "dinner",
-      id: '1'
-    },
-    {
-      info: "交通",
-      value: 2.3,
-      class: "traffic",
-      id: '2'
-    },
-  ], delCallback } = props;
+const PayItem = (props) => {
+  const { data, delCallback } = props;
+  const { date, list, all } = data;
+  
+  const week = weekMap[new Date(date).getDay()] || '';
 
   const onCallback = (id) => {
     Taro.showModal({
@@ -49,20 +40,20 @@ export const PayItem = (props) => {
         <View className='week'>{week}</View>
         <View className='value'>
           <Text >支出：</Text>
-          <Text className='number' >{dayValue}</Text>
+          <Text className='number' >{all}</Text>
         </View>
       </View>
       {
-        items.map((item, index) => {
+        list.map((item, index) => {
           return (
-            <SwipeAction key={item.key} id={item.id} onCallback={onCallback} >
+            <SwipeAction key={item.id} id={item.id} onCallback={onCallback} >
               <View className='item border-box flex column-center'>
                 <View className='icon'>
-                  <Text className='icon iconfont icon-tongxun'></Text>
+                  <Text className={`icon iconfont icon-${item.category.icon}`}></Text>
                 </View>
                 <View className='item-right border-box flex flex-1 just-between '>
                   <View className='info'>
-                    {item.info}
+                    {item.category.title}
                   </View>
                   <View className='value'>
                     <Money value={item.value} />
@@ -76,3 +67,5 @@ export const PayItem = (props) => {
     </View>
   )
 }
+
+export default React.memo(PayItem);

@@ -1,3 +1,5 @@
+import { Base64 } from "js-base64";
+
 export const repairZero = (month) => {
   return month <= 9 && +month.length === 1 ? '0' + month : month;
 }
@@ -26,30 +28,30 @@ export const dateFormat = (date, fmt) => {
 export function throttle(fun, delay) {
   let last, deferTimer
   return function (args) {
-      let that = this
-      let _args = arguments
-      let now = +new Date()
-      if (last && now < last + delay) {
-          clearTimeout(deferTimer)
-          deferTimer = setTimeout(function () {
-              last = now
-              fun.apply(that, _args)
-          }, delay)
-      }else {
-          last = now
-          fun.apply(that,_args)
-      }
+    let that = this
+    let _args = arguments
+    let now = +new Date()
+    if (last && now < last + delay) {
+      clearTimeout(deferTimer)
+      deferTimer = setTimeout(function () {
+        last = now
+        fun.apply(that, _args)
+      }, delay)
+    } else {
+      last = now
+      fun.apply(that, _args)
+    }
   }
 }
 
 export function debounce(fun, delay) {
   return function (args) {
-      let that = this
-      let _args = args
-      clearTimeout(fun.id)
-      fun.id = setTimeout(function () {
-          fun.call(that, _args)
-      }, delay)
+    let that = this
+    let _args = args
+    clearTimeout(fun.id)
+    fun.id = setTimeout(function () {
+      fun.call(that, _args)
+    }, delay)
   }
 }
 
@@ -58,7 +60,7 @@ export function debounce(fun, delay) {
  * [x,x,...] => [[x,x,x,x],[x,x,x,x],....]
  * @returns 
  */
- export const splitLineGroup = (Items,lineItem: number = 4) => {
+export const splitLineGroup = (Items, lineItem: number = 4) => {
   const result = [];
   const origin = Object.keys(Items);
   let temp = [];
@@ -71,5 +73,28 @@ export function debounce(fun, delay) {
   })
   result.push([...temp]);
   temp = null;
+  return result;
+}
+
+
+export function encodeToken(token: string) {
+  const base64 = Base64.encode(token + ':');
+  // console.log(result)
+  return 'Basic ' + base64;
+}
+
+export function setMonthValue(list = []) {
+  const set = new Set();
+  for (const item of list) {
+    set.add(item.day);
+  }
+  const result = [];
+  for (const day of set) {
+    result.push({
+      date: day,
+      all: list.reduce((pre, cur) => pre += (+cur.value), 0).toFixed(2),
+      list: list.filter(i => i.day === day)
+    })
+  }
   return result;
 }

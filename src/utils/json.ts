@@ -20,3 +20,13 @@ export const classItem = {
   qita: "其他",
   shezhi: "自定义",
 }
+
+export const weekMap = {
+  1: '周一',
+  2: '周二',
+  3: '周三',
+  4: '周四',
+  5: '周五',
+  6: '周六',
+  7: '周日',
+}
