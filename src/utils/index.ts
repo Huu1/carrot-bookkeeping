@@ -60,12 +60,11 @@ export function debounce(fun, delay) {
  * [x,x,...] => [[x,x,x,x],[x,x,x,x],....]
  * @returns 
  */
-export const splitLineGroup = (Items, lineItem: number = 4) => {
-  const result = [];
-  const origin = Object.keys(Items);
-  let temp = [];
-  origin.forEach((key, index) => {
-    temp.push(key);
+export const splitLineGroup = (Items: any[], lineItem: number = 4) => {
+  const result: any = [];
+  let temp: any = [];
+  Items.forEach((c) => {
+    temp.push(c);
     if (temp.length === lineItem) {
       result.push([...temp]);
       temp = [];
@@ -73,8 +72,12 @@ export const splitLineGroup = (Items, lineItem: number = 4) => {
   })
   result.push([...temp]);
   temp = null;
+  console.log(result);
+
   return result;
 }
+
+
 
 
 export function encodeToken(token: string) {
@@ -83,16 +86,15 @@ export function encodeToken(token: string) {
   return 'Basic ' + base64;
 }
 
-export function setMonthValue(list = []) {
+export function setMonthValue(list: any = []) {
   const set = new Set();
   for (const item of list) {
     set.add(item.day);
   }
-  const result = [];
+  const result: any = [];
   for (const day of set) {
     result.push({
       date: day,
-      all: list.reduce((pre, cur) => pre += (+cur.value), 0).toFixed(2),
       list: list.filter(i => i.day === day)
     })
   }

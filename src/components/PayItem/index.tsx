@@ -7,10 +7,14 @@ import { SwipeAction } from "../SwipeAction";
 import './index.less';
 
 const PayItem = (props) => {
-  const { data, delCallback } = props;
-  const { date, list, all } = data;
+  console.log('x');
   
+  const { data, delCallback } = props;
+  const { date, list } = data;
+
   const week = weekMap[new Date(date).getDay()] || '';
+
+  const all = list.reduce((pre, cur) => pre += (+cur.value), 0).toFixed(2);
 
   const onCallback = (id) => {
     Taro.showModal({

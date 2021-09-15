@@ -1,7 +1,7 @@
 import Taro from "@tarojs/taro";
-import {encodeToken} from './index';
+import { encodeToken } from './index';
 
-const BASE_URL = 'http://localhost:10086';
+export const BASE_URL = 'http://192.168.31.98:10086';
 
 // api请求封装
 const http = function (url: string, method: any, paramet: object) {
@@ -48,7 +48,7 @@ const http = function (url: string, method: any, paramet: object) {
           if (res.code) {
             //发起网络请求
             Taro.request({
-              url: 'http://localhost:10086/v1/token',
+              url: `${BASE_URL}/v1/token`,
               method: 'POST',
               data: {
                 account: res.code,

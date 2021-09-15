@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Taro from "@tarojs/taro";
 import { View, Text } from '@tarojs/components'
 import './index.less'
@@ -25,7 +26,10 @@ const AddPay = () => {
   const { title, navbarHeight } = useAppData();
 
   // const
-  const [classList] = useState(splitLineGroup(classItem));
+
+
+  const { systemData = [] } = useSelector((state: any) => state.app);
+  const [classList] = useState(splitLineGroup(systemData));
 
 
   const [pageStlye, setPageStyle] = useState(getPageStyle(navbarHeight))
@@ -72,8 +76,8 @@ const AddPay = () => {
             return (
               <View key={lIndex} className='line-item flex column-cemter just-between'>
                 {
-                  line.map((key, index) => {
-                    return <ClassItem classify={classify} clickHandle={clickHandle} name={key} text={classItem[key]} key={index} />
+                  line.map((category, index) => {
+                    return <ClassItem classify={classify} clickHandle={clickHandle} category={category} key={index} />
                   })
                 }
               </View>
@@ -86,17 +90,17 @@ const AddPay = () => {
 }
 
 const ClassItem = (props) => {
-  const { clickHandle, classify } = props;
-  const { name, text = '未知' } = props;
+  const { clickHandle, classify, category } = props;
+  const { icon, title ,id} = category;
   return (
-    <View onClick={() => clickHandle(name)} className='class-pay flex-column column-center'>
-      <View className={`icon-pay flex column-center row-center  ${classify === name ? 'checked' : ''}`}>
+    <View onClick={() => clickHandle(id)} className='class-pay flex-column column-center'>
+      <View className={`icon-pay flex column-center row-center  ${classify === id ? 'checked' : ''}`}>
         <Text
           // eslint-disable-next-line react/jsx-curly-brace-presence
-          className={`icon iconfont icon-${name}`}
+          className={`icon iconfont icon-${icon}`}
         ></Text>
       </View>
-      <Text>{text}</Text>
+      <Text>{title}</Text>
     </View>
   )
 }

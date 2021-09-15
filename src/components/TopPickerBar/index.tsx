@@ -1,7 +1,6 @@
 import { View, Text, Picker } from "@tarojs/components";
-import React, { useState } from "react";
-import { initTime } from "../../pages/index";
-import { dateFormat, repairZero } from "../../utils";
+import React from "react";
+import {  repairZero } from "../../utils";
 import { Money } from "../Money";
 import "./index.less";
 
@@ -15,10 +14,9 @@ const getDate = (date) => {
   }
 }
 
-export const TopPickerBar = (props) => {
-  const { style, dateChangeHandle, date } = props;
+const TopPickerBar = (props) => {
+  const { style, dateChangeHandle, date, sum } = props;
 
-  const value = 234.2;
   const value2 = 0.23;
 
   const onDateChange = (e) => {
@@ -45,7 +43,7 @@ export const TopPickerBar = (props) => {
         <View className='expend flex-column just-between'>
           <View className='money-info'>合计支出</View>
           <View className='value'>
-            <Money value={value} lastScale />
+            <Money value={sum} lastScale />
           </View>
         </View>
         <View className='expend flex-column just-between'>
@@ -61,3 +59,5 @@ export const TopPickerBar = (props) => {
     </View>
   )
 }
+
+export default React.memo(TopPickerBar);

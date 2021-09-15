@@ -1,11 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Swiper, SwiperItem, MovableArea ,MovableView} from '@tarojs/components';
+import { useSelector } from 'react-redux';
+import { View, Text, Swiper, SwiperItem, MovableArea, MovableView } from '@tarojs/components';
 import NavBar from "../../components/NavBar";
 import { useAppData, useNavInfo } from '../../utils/hooks';
-import { TopPickerBar } from '../../components/TopPickerBar';
 import { SwipeAction } from '../../components/SwipeAction';
 
 const pickHeight = 55;
+
+const splitLineGroup = (Items, lineItem: number = 4) => {
+  const result: any = [];
+  let temp: any = [];
+  Items.forEach((c) => {
+    temp.push(c);
+    if (temp.length === lineItem) {
+      result.push([...temp]);
+      temp = [];
+    }
+  })
+  result.push([...temp]);
+  temp = null;
+  console.log(result);
+
+  return result;
+}
 
 const Index = () => {
 
@@ -14,17 +31,18 @@ const Index = () => {
 
   const { appHeaderHeight } = useNavInfo();
 
-  console.log(appHeaderHeight);
-
   const style = {
     top: navbarHeight + 'px',
     height: pickHeight + 'px'
   }
 
+  const { systemData = [] } = useSelector((state: any) => state.app);
+
+  splitLineGroup(systemData);
+
   return (
     <>
       <NavBar />
-      <TopPickerBar style={style} />
       <View style={{ marginTop: `${navbarHeight + pickHeight}px` }}>
         <SwipeAction >
           <View style={{ height: "40px", background: "skyblue" }}>

@@ -4,11 +4,15 @@ import models from "./dva/models";
 import dva from "./dva/index";
 import './app.less';
 
-const dvaApp = dva.createApp( {
+const dvaApp = dva.createApp({
   initialState: {},
   models: models,
-} );  
+});
+
 const store = dvaApp.getStore();
+store.dispatch({
+  type: 'app/getSysData'
+})
 
 const App = (props) => {
   return (

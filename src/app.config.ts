@@ -13,7 +13,7 @@ export default {
     navigationBarTitleText: '胡萝卜记账',
     navigationBarTextStyle: 'black',
     // navigationStyle: 'custom',
-    backgroundColor: "#fff",
+    backgroundColor: "#f2f2f2",
   },
   tabBar: {
     list: [
