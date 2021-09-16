@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import Taro ,{ useReady }from "@tarojs/taro";
 import { useSelector } from 'react-redux';
-import { View, Text, Swiper, SwiperItem, MovableArea, MovableView } from '@tarojs/components';
+import { View, Text, Swiper, SwiperItem, MovableArea, MovableView, Button } from '@tarojs/components';
 import NavBar from "../../components/NavBar";
 import { useAppData, useNavInfo } from '../../utils/hooks';
 import { SwipeAction } from '../../components/SwipeAction';
@@ -31,6 +32,17 @@ const Index = () => {
 
   const { appHeaderHeight } = useNavInfo();
 
+
+  const clickHandlke= () => {
+    Taro.getUserProfile({
+      desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      success: (res) => {
+        console.log(res);
+
+      }
+    })
+  }
+
   const style = {
     top: navbarHeight + 'px',
     height: pickHeight + 'px'
@@ -43,6 +55,7 @@ const Index = () => {
   return (
     <>
       <NavBar />
+      <Button onClick={clickHandlke}>click</Button>
       <View style={{ marginTop: `${navbarHeight + pickHeight}px` }}>
         <SwipeAction >
           <View style={{ height: "40px", background: "skyblue" }}>

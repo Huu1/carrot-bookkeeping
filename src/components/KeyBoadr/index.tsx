@@ -112,7 +112,7 @@ export const KeyBoard = (props) => {
   }
 
   return (
-    <View className='container flex-column just-between' style={{ height: BOARD_HEIGHT }}>
+    <View className='board-container flex-column just-between' style={{ height: BOARD_HEIGHT }}>
       <View className='top flex border-box column-center'>
         <Text className='tip icon iconfont icon-beizhu'></Text>
         <Input onInput={onInpushChange} type='text' className='input' placeholder='备注一下' maxlength={10} />

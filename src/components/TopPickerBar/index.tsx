@@ -1,7 +1,7 @@
 import { View, Text, Picker } from "@tarojs/components";
 import React from "react";
-import {  repairZero } from "../../utils";
-import { Money } from "../Money";
+import { repairZero } from "../../utils";
+import Money from "../Money";
 import "./index.less";
 
 const getDate = (date) => {
@@ -14,17 +14,18 @@ const getDate = (date) => {
   }
 }
 
-const TopPickerBar = (props) => {
-  const { style, dateChangeHandle, date, sum } = props;
+const value2 = 0;
 
-  const value2 = 0.23;
+const TopPickerBar = (props) => {
+  const { heidght, dateChangeHandle, date, sum } = props;
+  // console.log('TopPickerBar render');
 
   const onDateChange = (e) => {
     dateChangeHandle(e.detail.value);
   }
 
   return (
-    <View className='bar-wrap flex' style={{ ...style }}>
+    <View className='bar-wrap flex' style={{ height: heidght + 'px' }}>
       <View className='flex-column just-between left'>
         <Text className='year'>{getDate(date)?.year}年</Text>
         <View className='picker-wrap'>

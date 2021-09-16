@@ -7,12 +7,13 @@ import { LineChart } from '../../components/lineChart';
 import { SwipeAction } from '../../components/SwipeAction';
 
 const barHeight = 40;
+const style = {
+  height: barHeight + 'px',
+  top: '0'
+}
 
 const Charts = () => {
-  const style = {
-    height: barHeight + 'px',
-    top: '0'
-  }
+
   const data = [
     {
       info: "晚餐",
@@ -56,28 +57,29 @@ const Charts = () => {
   }, [])
 
   return (
-    <>
-      <ChartBar style={{ ...style }} />
-      <View className='chartpage-wrap' style={
-        {
-          marginTop: `${barHeight}px`
-        }
-      }
-      >
-        <View className='chart-wrap'>
-          <LineChart data={data.map(({ info, value }) => ({ info, value }))} />
-        </View>
-        <View className='out-title'>支出排行榜</View>
-        <View className='contianer'>
-          {
-            data.map((item, index) => {
-              return <PaySumItem item={item} key={index} />
-            })
-          }
-        </View>
+    <View></View>
+    // <>
+    //   <ChartBar style={{ ...style }} />
+    //   <View className='chartpage-wrap' style={
+    //     {
+    //       marginTop: `${barHeight}px`
+    //     }
+    //   }
+    //   >
+    //     <View className='chart-wrap'>
+    //       {/* <LineChart data={data.map(({ info, value }) => ({ info, value }))} /> */}
+    //     </View>
+    //     <View className='out-title'>支出排行榜</View>
+    //     <View className='contianer'>
+    //       {
+    //         data.map((item, index) => {
+    //           return <PaySumItem item={item} key={index} />
+    //         })
+    //       }
+    //     </View>
 
-      </View>
-    </>
+    //   </View>
+    // </>
   )
 }
 

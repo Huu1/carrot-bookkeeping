@@ -15,7 +15,9 @@ const scaleLastNum = (data: number = 0) => {
   }
 }
 
-export const Money = ({ value, lastScale = false }) => {
+const Money = ({ value, lastScale = false }) => {
+  console.log(',,,');
+  
   const { first, last } = scaleLastNum(value);
   return (
     <View className={`${lastScale ? 'money' : ''}`}>
@@ -24,3 +26,5 @@ export const Money = ({ value, lastScale = false }) => {
     </View>
   )
 }
+
+export default React.memo(Money);

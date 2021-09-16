@@ -2,7 +2,7 @@ import { View, Text } from "@tarojs/components";
 import React from "react";
 import './index.less';
 
-export const Error = ({error='出了一点小意外~'}) => {
+export const Error = React.memo(({ error = '出了一点小意外~' }: { error?: string }) => {
   return (
     <View className='error holder-container'>
       <View className='flex-column column-center'>
@@ -11,4 +11,4 @@ export const Error = ({error='出了一点小意外~'}) => {
       </View>
     </View>
   )
-}
+})

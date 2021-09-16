@@ -51,6 +51,7 @@ export const useRequest = (initUrl: string, methods = 'GET', initialParam: any):
       dispatch({ type: 'FETCH_INIT' });
 
       try {
+        Taro.showNavigationBarLoading();
         const result = await http(url, methods, param);
         if (!didCancel) {
           dispatch({ type: 'FETCH_SUCCESS', payload: result });
@@ -63,6 +64,7 @@ export const useRequest = (initUrl: string, methods = 'GET', initialParam: any):
           dispatch({ type: 'FETCH_FAILURE' });
         }
       }
+      Taro.hideNavigationBarLoading()
     };
 
     fetchData();

@@ -1,14 +1,11 @@
 import { View, Text } from "@tarojs/components";
-import Taro from "@tarojs/taro";
 import React from "react";
 import { weekMap } from "../../utils/json";
-import { Money } from "../Money";
+import Money from "../Money";
 import { SwipeAction } from "../SwipeAction";
 import './index.less';
 
 const PayItem = (props) => {
-  console.log('x');
-  
   const { data, delCallback } = props;
   const { date, list } = data;
 
@@ -17,23 +14,7 @@ const PayItem = (props) => {
   const all = list.reduce((pre, cur) => pre += (+cur.value), 0).toFixed(2);
 
   const onCallback = (id) => {
-    Taro.showModal({
-      title: '提示',
-      content: '删除',
-      success: function (res) {
-        if (res.confirm) {
-          Taro.showLoading({
-            title: '加载中',
-          })
-          setTimeout(function () {
-            delCallback(id);
-            Taro.hideLoading();
-          }, 2000)
-        } else if (res.cancel) {
-          console.log('用户点击取消')
-        }
-      }
-    })
+    delCallback(id, date);
   }
 
   return (

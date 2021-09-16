@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import Taro, { getCurrentPages, useDidShow, useReady, useRouter } from "@tarojs/taro";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import Taro, { getCurrentPages, useDidShow, } from "@tarojs/taro";
 import { View, Text } from '@tarojs/components';
-import { PageLoading } from '../../components/PageLoading';
 import { useRequest } from '../../utils/useHttp';
 import TopPickerBar from '../../components/TopPickerBar';
 import PayItem from '../../components/PayItem';
@@ -9,6 +8,7 @@ import { Empty } from '../../components/Empty';
 import { Error } from '../../components/Error';
 import './index.less';
 import { dateFormat, setMonthValue } from '../../utils';
+import { delPayItem } from './service';
 
 const pickHeight = 55;
 
@@ -18,9 +18,98 @@ const getMonthUrl = (date = initTime) => {
   return `/v1/expend/month/?date=${date}&time=${Date.now()}`;
 }
 
-// 添加支出
-const AddPay = () => {
 
+const Index = () => {
+
+  useDidShow(() => {
+    const pages: any = getCurrentPages();
+    const currPageData: any = pages[pages.length - 1].data;
+    const newDate = currPageData.newDate;
+    if (newDate) {
+      setDate(newDate);
+      setUrl(getMonthUrl(newDate));
+      currPageData.newDate = null;
+    }
+  })
+
+  // 总览数据
+  const { state, setUrl } = useRequest(getMonthUrl(), "GET", {});
+  const { isLoading, isError, data: dataResult } = state;
+
+  // 年月
+  const [date, setDate] = useState<string>(initTime);
+
+  const monthData = useMemo(() => {
+    const { data: { list = [] } = { list: [] } } = dataResult;
+    return setMonthValue(list);
+  }, [dataResult]);
+
+  const sum = useMemo(() => {
+    const { data: { all } = { all: 0.00 } } = dataResult;
+    return all;
+  }, [dataResult]);
+
+
+  const dateChangeHandle = useCallback((value: string) => {
+    setDate(value);
+    setUrl(getMonthUrl(value));
+  }, [setUrl])
+
+  const delCallback = useCallback((id: number) => {
+    Taro.showModal({
+      title: '提示',
+      content: '确定要删除这笔支出吗？',
+      success: async function (res) {
+        if (res.confirm) {
+          // Taro.showLoading({
+          //   title: '加载中',
+          // })
+          const result = await delPayItem(id);
+          // Taro.hideLoading();
+          const { error_code, msg } = result;
+          if (error_code === 0) {
+            setUrl(getMonthUrl(date));
+          } else {
+            Taro.showToast({ title: msg });
+          }
+        }
+      }
+    })
+  }, [date, setUrl]);
+
+  const pageStyle = useMemo(() => ({
+    minHeight: `calc(100vh - ${pickHeight}px)`,
+    marginTop: `${pickHeight}px`
+  }), [])
+
+  return (
+    <>
+      <TopPickerBar date={date} sum={sum} height={pickHeight} dateChangeHandle={dateChangeHandle} />
+      <View style={pageStyle}>
+        {
+          isError && <Error />
+        }
+        {
+          !isError && !isLoading && monthData.length === 0 && <Empty />
+        }
+        {
+          monthData && monthData.length > 0 && monthData.map((item) => {
+            return <PayItem
+              delCallback={delCallback}
+              key={item.id}
+              data={item}
+            />
+          })
+        }
+      </View>
+      <AddPay />
+    </>
+  )
+}
+
+
+// 添加支出
+const AddPay = React.memo(() => {
   const goPayPage = () => {
     Taro.navigateTo({ url: '/pages/AddExpenditure/index' })
   }
@@ -29,121 +118,6 @@ const AddPay = () => {
       <Text className='icon iconfont icon-add'></Text>
     </View>
   )
-}
-
-
-const Index = () => {
-  const [date, setDate] = useState<string>(initTime);
-
-  useDidShow(() => {
-    console.log('didshow');
-
-    const pages: any = getCurrentPages()
-    const currPageData: any = pages[pages.length - 1].data
-    const newDate = currPageData.newDate;
-
-    if (newDate) {
-      setDate(newDate);
-      setUrl(getMonthUrl(newDate));
-      currPageData.newDate = null;
-    }
-  })
-  
-
-
-  // 总览数据
-  const { state, setUrl } = useRequest(getMonthUrl(), "GET", {});
-  const { isLoading, isError, data } = state;
-
-  const [dailyPay, setDailyPay] = useState<any>([]);
-  const [sum, setSum] = useState<any>(0.00);
-
-  useEffect(()=>{
-    if(isLoading){
-      Taro.showNavigationBarLoading()
-    }else {
-      Taro.hideNavigationBarLoading()
-    }
-  },[isLoading])
-
-  useEffect(() => {
-    const { data: { list = [], all } = { list: [], all: 0.00 } } = data;
-    if (data) {
-      setDailyPay(setMonthValue(list));
-      setSum(all);
-    }
-  }, [data])
-
-  const dateChangeHandle = (value: string) => {
-    setDate(value)
-    setDailyPay([]);
-    setUrl(getMonthUrl(value));
-  }
-
-  const delCallback = useCallback((value) => {
-    console.log(value);
-  }, [])
-
-  const pageStyle = {
-    minHeight: `calc(100vh - 55px)`,
-    background: '#f2f2f2',
-    marginTop: `${pickHeight}px`
-  }
-
-  // 页面容器
-  const PageContainer = React.memo((props) => {
-    return (
-      <>
-        <View style={pageStyle}>
-          <TopPickerBar date={date} sum={sum} style={{ height: `${pickHeight}px` }} dateChangeHandle={dateChangeHandle} />
-          <View className='pay-list' style={{ marginTop: `${pickHeight}px` }}>
-            {props.children}
-          </View>
-        </View>
-        <AddPay />
-      </>
-    )
-  })
-
-  if (isLoading) {
-    return (
-      <PageContainer>
-        {/* <View className='pageLoading'><PageLoading /></View> */}
-      </PageContainer>
-    )
-  }
-
-  if (!isError && !isLoading && dailyPay.length === 0) {
-    return (
-      <PageContainer >
-        <Empty />
-      </PageContainer>
-    )
-  }
-
-  if (isError) {
-    return (
-      <PageContainer >
-        <Error />
-      </PageContainer>
-    )
-  }
-
-  if (dailyPay && dailyPay.length) {
-    return (
-      <PageContainer>
-        {
-          dailyPay.map((item, index) => {
-            return <PayItem
-              delCallback={delCallback}
-              key={item.id}
-              data={item}
-            />
-          })
-        }
-      </PageContainer>
-    )
-  }
-}
+})
 
 export default Index;
