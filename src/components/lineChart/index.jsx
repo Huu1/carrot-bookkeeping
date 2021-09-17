@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 // import F2 from "@antv/f2/lib/index-all";
 import F2 from "@antv/f2";
 import F2Canvas from "../ChartCanvas/index";
@@ -23,7 +23,7 @@ const initChart = (config) => {
     }
   });
   chart.tooltip();
-  chart.interval().position('info*value').color('#ffc300');
+  chart.interval().position('title*value').color('#ffc300');
   chart.render();
 
   // const data = [{
@@ -39,12 +39,12 @@ const initChart = (config) => {
   //   percent: 14.24,
   //   a: '1'
   // }];
-  
+
   // const map = {};
   // data.forEach(function(obj) {
   //   map[obj.name] = obj.percent + '%';
   // });
-  
+
   // // const chart = new F2.Chart({
   // //   id: 'container',
   // //   pixelRatio: window.devicePixelRatio,
@@ -94,20 +94,21 @@ const initChart = (config) => {
   return chart;
 };
 
-export const LineChart = (props) => {
+const LineChart = (props) => {
   const { data } = props;
   const [chart, setChat] = useState(null);
 
   const fn = useCallback(
     (config) => {
       const ch = initChart(config);
-      setChat(ch)
+      setChat(ch);
     },
     []
   );
 
   useEffect(() => {
     if (chart) {
+      console.log(data);
       chart.changeData(data);
       chart.render();
     }
@@ -123,3 +124,5 @@ export const LineChart = (props) => {
     </>
   );
 };
+
+export default React.memo(LineChart);

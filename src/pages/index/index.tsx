@@ -44,18 +44,15 @@ const Index = () => {
     return setMonthValue(list);
   }, [dataResult]);
 
-  const sum = useMemo(() => {
-    const { data: { all } = { all: 0.00 } } = dataResult;
-    return all;
-  }, [dataResult]);
+  const { data: { sum } = { sum: 0.00 } } = dataResult;
 
 
-  const dateChangeHandle = useCallback((value: string) => {
+  const dateChangeHandle = (value: string) => {
     setDate(value);
     setUrl(getMonthUrl(value));
-  }, [setUrl])
+  }
 
-  const delCallback = useCallback((id: number) => {
+  const delCallback = (id: number) => {
     Taro.showModal({
       title: '提示',
       content: '确定要删除这笔支出吗？',
@@ -75,7 +72,7 @@ const Index = () => {
         }
       }
     })
-  }, [date, setUrl]);
+  };
 
   const pageStyle = useMemo(() => ({
     minHeight: `calc(100vh - ${pickHeight}px)`,

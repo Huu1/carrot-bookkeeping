@@ -11,10 +11,8 @@ const pickerStyle = {
 }
 
 export const ChartBar = (props) => {
-  const { style } = props;
+  const { style, date, mode, setDate, setMode, sum } = props;
 
-  const [mode, setMode] = useState('0');
-  const [date, setDate] = useState(dateFormat(new Date(), 'YYYY-mm'));
 
   const modeOnChange = (e) => {
     const { detail: { value } } = e;
@@ -32,7 +30,7 @@ export const ChartBar = (props) => {
     <View style={{ ...style }} className='bar-container flex  column-center just-between'>
       <View className='action'>
         {/* <Text className='triangle icon iconfont icon-filterguolv'></Text> */}
-        <Text >支出：200.00</Text>
+        <Text >支出：{sum}</Text>
       </View>
       <View className='date flex'>
         <Picker mode='selector' style={{ marginRight: '10px', ...pickerStyle }} range={modeList} onChange={modeOnChange}>

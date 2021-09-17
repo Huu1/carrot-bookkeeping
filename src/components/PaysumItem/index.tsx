@@ -1,27 +1,30 @@
 import { View, Text } from "@tarojs/components";
 import React from "react";
-import { Money } from "../Money";
+import Money from "../Money";
 import './index.less';
 
-export const PaySumItem = (props) => {
+export const PaySumItem = React.memo((props: any) => {
   const { item = {
-    info: "晚餐",
-    value: "23.3",
-    class: "dinner",
-    sum: 4,
-    ratio: 0.25
+    value: 32434,
+    count: 3,
+    ratio: 0.25,
+    category: {
+      title: "饮食",
+      icon: "canyin"
+    },
   } } = props;
+  
 
-  const right = (1 - item.ratio) * 100
+  const right = (1 - item.ratio) * 100;
   return (
     <View className='container flex column-center'>
       <View className='icon'>
-        <Text className='icon iconfont icon-tongxun'></Text>
+        <Text className={`icon iconfont icon-${item.category.icon}`}></Text>
       </View>
       <View className='item-right flex flex-1 just-between '>
         <View className='left flex-1'>
           <Text className='info'>
-            {item.info}
+            {item.category.title}
           </Text>
           <View className='ratio' style={{ right: `${right}%` }}></View>
         </View>
@@ -30,11 +33,11 @@ export const PaySumItem = (props) => {
             <Money value={item.value} />
           </View>
           <View className='sum'>
-            {item.sum}笔
+            {item.count}笔
           </View>
         </View>
       </View>
 
     </View>
   )
-}
+})
