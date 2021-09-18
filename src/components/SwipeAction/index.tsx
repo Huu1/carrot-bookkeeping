@@ -1,4 +1,4 @@
-import { View } from "@tarojs/components";
+import { View, Text } from "@tarojs/components";
 import React, { useEffect, useRef } from "react";
 import { throttle } from "../../utils";
 import './index.less';
@@ -19,7 +19,7 @@ export const SwipeAction = (props) => {
       const { clientX } = e.touches[0];
       let moveLength = clientX - start;
       if (moveLength < -50) {
-        refs.style.transform = `translateX(-150rpx)`;
+        refs.style.transform = `translateX(-120rpx)`;
       } else if (moveLength > 50) {
         refs.style.transform = `translateX(0)`
       }
@@ -44,7 +44,9 @@ export const SwipeAction = (props) => {
         <View className='content'>
           {props.children}
         </View>
-        <View className='action-aera flex row-center column-center' onClick={() => onCallback(id)}>删除</View>
+        <View className='action-aera flex row-center column-center' onClick={() => onCallback(id)}>
+          <Text className='triangle icon iconfont icon-changyonggoupiaorenshanchu'></Text>
+        </View>
       </View>
     </View>
 

@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import Taro, { getCurrentPages, useDidShow, } from "@tarojs/taro";
+import React, { useMemo, useState } from 'react';
+import Taro, { getCurrentPages, useDidShow, useReachBottom } from "@tarojs/taro";
 import { View, Text } from '@tarojs/components';
 import { useRequest } from '../../utils/useHttp';
 import TopPickerBar from '../../components/TopPickerBar';
@@ -20,6 +20,10 @@ const getMonthUrl = (date = initTime) => {
 
 
 const Index = () => {
+
+  useReachBottom(() => {
+    console.log('xxx');
+  })
 
   useDidShow(() => {
     const pages: any = getCurrentPages();
@@ -76,7 +80,8 @@ const Index = () => {
 
   const pageStyle = useMemo(() => ({
     minHeight: `calc(100vh - ${pickHeight}px)`,
-    marginTop: `${pickHeight}px`
+    marginTop: `${pickHeight}px`,
+    overFlow: "auto"
   }), [])
 
   return (
@@ -87,7 +92,8 @@ const Index = () => {
           isError && <Error />
         }
         {
-          !isError && !isLoading && monthData.length === 0 && <Empty />
+          !isError && !isLoading && monthData.length === 0 &&
+          <Empty />
         }
         {
           monthData && monthData.length > 0 && monthData.map((item) => {

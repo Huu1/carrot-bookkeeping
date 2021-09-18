@@ -9,7 +9,7 @@ export default {
   ],
   window: {
     backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#ffc300',
+    navigationBarBackgroundColor: '#ffda44',
     navigationBarTitleText: '胡萝卜记账',
     navigationBarTextStyle: 'black',
     // navigationStyle: 'custom',

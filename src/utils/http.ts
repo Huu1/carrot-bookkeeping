@@ -58,7 +58,7 @@ const http = function (url: string, method: any, paramet: object) {
                 const { statusCode, data } = params;
                 if (statusCode === 200) {
                   Taro.setStorageSync('token', data.token);
-                  return featchData(resolve, reject, data.koken);
+                  return featchData(resolve, reject, data.token);
                 } else {
                   const title = '服务器登录异常';
                   Taro.showToast({

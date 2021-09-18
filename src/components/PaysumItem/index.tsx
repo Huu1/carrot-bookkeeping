@@ -13,7 +13,7 @@ export const PaySumItem = React.memo((props: any) => {
       icon: "canyin"
     },
   } } = props;
-  
+
 
   const right = (1 - item.ratio) * 100;
   return (

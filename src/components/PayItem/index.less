@@ -3,52 +3,53 @@
   margin-top: 10px;
   background-color: @home-secound-bgColor;
   .top-info {
+    .border-bottom-light();
     color: @font-secound-color;
-    padding: 15px 30px;
-    font-size: 24px;
+    padding: 20px 30px;
+    font-size: 26px;
     .icon {
-      font-size: 34px;
+      font-size: 32px;
     }
     .time {
       margin: 0 14px;
     }
     .value {
       margin-left: auto;
-      .number{
+      .number {
         font-size: 26px;
       }
     }
   }
   .item {
-    .border-bottom-light();
-    padding: 5px 36px;
+    padding: 0px 36px;
     .icon {
-      width: 80px;
-      height: 80px;
+      width: 74px;
+      height: 74px;
       border-radius: 50%;
-      background-color: @home-primary-bgColor;
+      background-color: @primary-color;
       text-align: center;
-      line-height: 80px;
+      line-height: 74px;
       Text {
-        font-size: 40px;
-        color: @primary-color;
+        font-size: 46px;
       }
     }
     .item-right {
+      .border-bottom-light();
       margin-left: 40px;
       padding: 30px 0;
+
       .info {
-        font-size: 28px;
+        font-size: 30px;
       }
       .value {
         font-weight: bold;
         color: @font-expend-color;
-        font-size: 34px;
+        font-size: 32px;
       }
     }
   }
-  .swipe-wrap:last-child{
-    .item {
+  .swipe-wrap:last-child {
+    .item .item-right {
       border-bottom: none;
     }
   }

@@ -17,7 +17,7 @@ const getDate = (date) => {
 const value2 = 0;
 
 const TopPickerBar = (props) => {
-  const { heidght, dateChangeHandle, date, sum } = props;
+  const { height, dateChangeHandle, date, sum } = props;
   // console.log('TopPickerBar render');
 
   const onDateChange = (e) => {
@@ -25,7 +25,7 @@ const TopPickerBar = (props) => {
   }
 
   return (
-    <View className='bar-wrap flex' style={{ height: heidght + 'px' }}>
+    <View className='bar-wrap flex' style={{ height: height + 'px' }}>
       <View className='flex-column just-between left'>
         <Text className='year'>{getDate(date)?.year}年</Text>
         <View className='picker-wrap'>

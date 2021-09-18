@@ -15,12 +15,13 @@ const scaleLastNum = (data: number = 0) => {
   }
 }
 
-const Money = ({ value, lastScale = false }) => {
-  console.log(',,,');
-  
+const Money = ({ value, lastScale = false, showMins = false }) => {
   const { first, last } = scaleLastNum(value);
   return (
     <View className={`${lastScale ? 'money' : ''}`}>
+      {
+        showMins && <Text style={{display:'inline-block',marginRight:"3px"}}>-</Text>
+      }
       <Text>{first}</Text>
       <Text>{last}</Text>
     </View>

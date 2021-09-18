@@ -21,6 +21,15 @@ export default {
         })
       }
     },
+    * login(action, { call, put }) {
+      const { error_code, data = [] } = yield call(http, '/v1/category/list', 'GET', {});
+      if (error_code === 0) {
+        yield put({
+          type: 'setSysData', // 方法名
+          payload: data,// 参数
+        })
+      }
+    },
   },
 
   reducers: { // 同步方法
