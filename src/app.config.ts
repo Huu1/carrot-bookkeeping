@@ -6,6 +6,7 @@ export default {
     'pages/AddPay/index',
     'pages/AddExpenditure/index',
     "pages/TestPage/index",
+    "pages/Budget/index",
   ],
   window: {
     backgroundTextStyle: 'light',

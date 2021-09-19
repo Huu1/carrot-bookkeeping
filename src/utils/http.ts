@@ -1,7 +1,8 @@
 import Taro from "@tarojs/taro";
 import { encodeToken } from './index';
 
-export const BASE_URL = 'http://192.168.31.98:10086';
+// export const BASE_URL = 'http://192.168.31.98:10086';
+export const BASE_URL = 'http://192.168.0.106:10086';
 
 // api请求封装
 const http = function (url: string, method: any, paramet: object) {

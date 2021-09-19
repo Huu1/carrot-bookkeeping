@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import Taro, { useReady } from "@tarojs/taro";
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import Taro, { useDidShow, useReady } from "@tarojs/taro";
 import { View, Image, Text, Button } from '@tarojs/components'
 import './index.less'
+import http from '../../utils/http';
 
 const defaultAvatar = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png';
 
@@ -10,42 +12,116 @@ const appMenu = [
     { icon: "icon-beizhu", name: "提个建议" },
     { icon: "icon-gengxin", name: "更新小程序" },
     { icon: "icon-fenlei-", name: "设置类别" },
-    { icon: "icon-guanyu1", name: "关于我们" },
+    { icon: "icon-guanyu1", name: "设置预算" },
   ],
-  // [
-  //   { icon: "icon-guanyu1", name: "关于我们" },
-  // ]
+  [
+    { icon: "icon-guanyu1", name: "关于我们" },
+  ]
 ]
 
 const UserCenter = () => {
-  const [{ allpay, allbookDay, allbookNum }, setUserBookData] = useState({
-    allpay: 0,
-    allbookDay: 2,
-    allbookNum: 2
+  const [{ summary, days, times }, setUserBookData] = useState({
+    summary: 0,
+    days: 0,
+    times: 0
   });
+
+  const dispatch = useDispatch();
+
+  const user = useSelector(((state: any) => state.app.user));
+
+  useReady(() => {
+    try {
+      const userInfo = Taro.getStorageSync('userInfo');
+      if (userInfo) {
+        dispatch({
+          type: 'app/setUser',
+          payload: userInfo
+        })
+        getUserBook();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  });
+
+
+  useDidShow(async () => {
+    if (user) {
+      getUserBook();
+    }
+  })
+
+  useEffect(() => {
+    if (user) {
+      getUserBook();
+    }
+  }, [user])
+
+  const getUserBook = async () => {
+    try {
+      Taro.showNavigationBarLoading();
+      const { error_code, data } = await http('/v1/expend/summary', 'GET', {})
+      if (error_code === 0) {
+        setUserBookData({
+          summary: data.summary,
+          days: data.days,
+          times: data.times
+        })
+      }
+      Taro.hideNavigationBarLoading();
+    } catch (error) {
+      Taro.hideNavigationBarLoading();
+    }
+  }
+
+
+  const login = () => {
+    Taro.getUserProfile({
+      desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      success: (res) => {
+        dispatch({
+          type: 'app/Login',
+          payload: res.userInfo
+        })
+      }
+    })
+  }
 
   return (
     <View className='user-container'>
-      <View className='user-info flex'>
-        <View className='avatar'>
-          <Image src={defaultAvatar} />
+      {
+        user ? <View className='user-info flex'>
+          <View className='avatar'>
+            <Image src={!user ? defaultAvatar : user.avatarUrl} />
+          </View>
+          <View className='info flex-1 flex-column row-center'>
+            <View className='username'>{user.nickName}</View>
+            <Text className='appinfo'>多吃胡萝卜，健康每一天~</Text>
+          </View>
         </View>
-        <View className='info flex-1 flex-column row-center'>
-          <View className='username'>胡瑶</View>
-          <Text className='appinfo'>多吃胡萝卜，健康每一天~</Text>
-        </View>
-      </View>
+          :
+          <View className='user-info flex' onClick={login}>
+            <View className='avatar'>
+              <Image src={defaultAvatar} />
+            </View>
+            <View className='info flex-1 flex-column row-center'>
+              立即登录
+            </View>
+          </View>
+      }
+
       <View className='menu flex just-between'>
         <View className='menu-item'>
-          <View className='number'>{allpay}</View>
+          <View className='number'>{summary}</View>
           <Text className='text'>共支出(元)</Text>
         </View>
         <View className='menu-item'>
-          <View className='number'>{allbookDay}</View>
+          <View className='number'>{days}</View>
           <Text className='text'>记账总天数</Text>
         </View>
         <View className='menu-item'>
-          <View className='number'>{allbookNum}</View>
+          <View className='number'>{times}</View>
           <Text className='text'>记账总笔数</Text>
         </View>
       </View>
@@ -71,7 +147,7 @@ const UserCenter = () => {
         </View>
       </View>
       <View className='share flex-column row-center column-center'>
-        <Button size='default' style={{ width: '100%', marginBottom: '5px', height: '40px', lineHeight: '40px' }} type='warn'>推荐给好友~</Button>
+        <Button size='default' style={{ width: '100%', marginBottom: '5px', height: '35px', lineHeight: '35px' }} type='warn'>推荐给好朋友~</Button>
         <Text>v1.0</Text>
       </View>
     </View>

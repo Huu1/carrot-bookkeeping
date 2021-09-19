@@ -1,14 +1,15 @@
-import React, { useMemo, useState } from 'react';
 import Taro, { getCurrentPages, useDidShow, useReachBottom } from "@tarojs/taro";
+import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { View, Text } from '@tarojs/components';
 import { useRequest } from '../../utils/useHttp';
 import TopPickerBar from '../../components/TopPickerBar';
 import PayItem from '../../components/PayItem';
 import { Empty } from '../../components/Empty';
 import { Error } from '../../components/Error';
-import './index.less';
 import { dateFormat, setMonthValue } from '../../utils';
 import { delPayItem } from './service';
+import './index.less';
 
 const pickHeight = 55;
 
@@ -17,7 +18,6 @@ export const initTime = dateFormat(new Date(), 'YYYY-mm');
 const getMonthUrl = (date = initTime) => {
   return `/v1/expend/month/?date=${date}&time=${Date.now()}`;
 }
-
 
 const Index = () => {
 
@@ -36,19 +36,25 @@ const Index = () => {
     }
   })
 
+  const dispatch = useDispatch();
+
   // 总览数据
   const { state, setUrl } = useRequest(getMonthUrl(), "GET", {});
   const { isLoading, isError, data: dataResult } = state;
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  const { data: { sum, budget } = { sum: 0.00, budget } } = dataResult;
 
   // 年月
   const [date, setDate] = useState<string>(initTime);
 
   const monthData = useMemo(() => {
     const { data: { list = [] } = { list: [] } } = dataResult;
+    dispatch({
+      type: 'app/setBudget',
+      payload: budget
+    })
     return setMonthValue(list);
-  }, [dataResult]);
-
-  const { data: { sum } = { sum: 0.00 } } = dataResult;
+  }, [dataResult, budget, dispatch]);
 
 
   const dateChangeHandle = (value: string) => {
@@ -62,9 +68,6 @@ const Index = () => {
       content: '确定要删除这笔支出吗？',
       success: async function (res) {
         if (res.confirm) {
-          // Taro.showLoading({
-          //   title: '加载中',
-          // })
           const result = await delPayItem(id);
           // Taro.hideLoading();
           const { error_code, msg } = result;
@@ -86,7 +89,7 @@ const Index = () => {
 
   return (
     <>
-      <TopPickerBar date={date} sum={sum} height={pickHeight} dateChangeHandle={dateChangeHandle} />
+      <TopPickerBar  date={date} sum={sum} height={pickHeight} dateChangeHandle={dateChangeHandle} />
       <View style={pageStyle}>
         {
           isError && <Error />

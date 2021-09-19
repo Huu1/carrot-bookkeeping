@@ -2,11 +2,11 @@ import { View, Text } from "@tarojs/components";
 import React from "react";
 import './index.less';
 
-const scaleLastNum = (data: number = 0) => {
-  let value = Number(data);
-  if (typeof value !== 'number') {
-    throw new Error('金额必须为数字');
+const scaleLastNum = (data: number = 0): any => {
+  if (!data) {
+    return null;
   }
+  let value = Number(data);
   let result = value.toFixed(2);
   const [first = '0.', last = '00'] = result.toString().split('.');
   return {
@@ -16,15 +16,21 @@ const scaleLastNum = (data: number = 0) => {
 }
 
 const Money = ({ value, lastScale = false, showMins = false }) => {
-  const { first, last } = scaleLastNum(value);
+  const data = scaleLastNum(value);
   return (
-    <View className={`${lastScale ? 'money' : ''}`}>
+    <>
       {
-        showMins && <Text style={{display:'inline-block',marginRight:"3px"}}>-</Text>
+        !data ? '--' :
+          <View className={`${lastScale ? 'money' : ''}`}>
+            {
+              showMins && <Text style={{ display: 'inline-block', marginRight: "3px" }}>-</Text>
+            }
+            <Text>{data.first}</Text>
+            <Text>{data.last}</Text>
+          </View>
       }
-      <Text>{first}</Text>
-      <Text>{last}</Text>
-    </View>
+    </>
+
   )
 }
 
