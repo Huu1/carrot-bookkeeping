@@ -44,13 +44,15 @@
     "@tarojs/taro": "3.3.5",
     "dva-core": "^2.0.4",
     "dva-loading": "^3.0.22",
+    "echarts": "^4.2.0-rc.2",
     "js-base64": "^3.7.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-redux": "^7.2.4",
     "redux": "^4.1.1",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "@antv/f2-context": "0.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

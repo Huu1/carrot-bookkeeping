@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Taro, { useDidShow, useReady } from "@tarojs/taro";
 import { View, Image, Text, Button } from '@tarojs/components'
 import './index.less'
@@ -51,12 +51,6 @@ const UserCenter = () => {
       getUserBook();
     }
   })
-
-  useEffect(() => {
-    if (user) {
-      getUserBook();
-    }
-  }, [user])
 
   const getUserBook = async () => {
     try {
