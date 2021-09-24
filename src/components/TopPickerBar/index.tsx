@@ -16,12 +16,20 @@ const getDate = (date) => {
   }
 }
 
+const surplusRatio = (data) => {
+  if (!data || !data.surplus?.toString() || !data.value?.toString()) return null;
+  let result;
+  result = ((Math.abs(data.surplus) / data.value) * 100).toFixed(0);
+  if (+data.surplus < 0) {
+    result = `-${result}`;
+  }
+  return `/ ${(result)}%`;
+}
+
 const TopPickerBar = (props) => {
   const { height, dateChangeHandle, date, sum } = props;
 
   const { budget } = useSelector((state: any) => state.app);
-
-  // console.log('TopPickerBar render');
 
   const onDateChange = (e) => {
     dateChangeHandle(e.detail.value);
@@ -59,8 +67,9 @@ const TopPickerBar = (props) => {
             <View >月预算剩余</View>
             <Text className='icon iconfont icon-shezhi' onClick={toBugetPage}></Text>
           </View>
-          <View className='value'>
+          <View className='value flex row-center ' style={{ alignItems: "baseline" }}>
             <Money value={budget?.surplus} lastScale />
+            <View style={{ marginLeft: "3px" }}>{surplusRatio(budget)}</View>
           </View>
         </View>
       </View>

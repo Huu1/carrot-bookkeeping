@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import Taro from "@tarojs/taro";
+import React, { useCallback, useEffect, useState } from 'react'
+import Taro, { useDidShow } from "@tarojs/taro";
 import { View } from '@tarojs/components';
-import { ChartBar } from '../../components/ChartBar';
+import ChartBar from '../../components/ChartBar';
 import { PaySumItem } from '../../components/PaysumItem';
 import { dateFormat } from '../../utils';
 import http from '../../utils/http';
 import PieChart from '../../components/Bar';
-import './index.less';
 import { Empty } from '../../components/Empty';
+import './index.less';
 
 const barHeight = 40;
 const style = {
@@ -17,10 +17,11 @@ const style = {
 
 const Charts = () => {
 
-
-  const [date, setDate] = useState(dateFormat(new Date(), 'YYYY-mm'));
-
-  const [mode, setMode] = useState('0');
+  const [param, setParam] = useState({
+    date: dateFormat(new Date(), 'YYYY-mm'),
+    mode: '0'
+  });
+  const { date, mode } = param
 
   const [data, setData] = useState([]);
 
@@ -28,14 +29,19 @@ const Charts = () => {
 
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const param = {
-      type: mode === '0' ? 'month' : 'year',
-      date: date
+  useDidShow(() => {
+    fetchData();
+  })
+
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const fetchData = (modeValue: string = mode, dateValue: string = date) => {
+    const params = {
+      type: modeValue === '0' ? 'month' : 'year',
+      date: dateValue
     }
     Taro.showNavigationBarLoading();
     setLoading(true);
-    http('/v1/expend/count', 'POST', param).then(res => {
+    http('/v1/expend/count', 'POST', params).then(res => {
       const { error_code: code, data: { list = [], sum: all = 0 } } = res;
       if (code === 0) {
         setData(list);
@@ -44,14 +50,41 @@ const Charts = () => {
     }).catch((res) => {
       console.log(res);
     }).finally(() => {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 200);
       Taro.hideNavigationBarLoading();
     })
-  }, [date, mode])
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const onParamChange = (param: { date: any; mode: any; }) => {
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    const { date, mode } = param;
+    setParam(param);
+    fetchData(mode, date);
+  }
+
+  const chartBar = () => {
+    return <ChartBar sum={sum} onParamChange={onParamChange} param={param} style={style} />
+  }
+
+  // if(loading) {
+  //   return (
+  //     chartBar()
+  //   )
+  // }
+
+  if (!loading && Array.isArray(data) && data.length === 0) {
+    return <View style={{ marginTop: '55px' }}>
+      {chartBar()}
+      <Empty />
+    </View>
+  }
 
   return (
     <>
-      <ChartBar sum={sum} setDate={setDate} setMode={setMode} date={date} mode={mode} style={style} />
+      {chartBar()}
       <View className='chartpage-wrap' style={
         {
           marginTop: `${barHeight}px`
@@ -64,19 +97,21 @@ const Charts = () => {
           return {
             const: 'const',
             title: i.category.title,
-            value: +i.value
+            color: i.category.color,
+            value: +i.value,
+            ratio: (i.ratio * 100).toFixed(2)
           }
         })}
         />
-        <View className='out-title'>支出排行榜</View>
-        <View className='contianer'>
-          {
-            data.map((item, index) => {
-              return <PaySumItem item={item} key={index} />
-            })
-          }
-        </View>
       </View >
+      <View className='out-title'>支出排行榜</View>
+      <View className='contianer'>
+        {
+          data.map((item, index) => {
+            return <PaySumItem item={item} key={index} />
+          })
+        }
+      </View>
     </>
 
   )

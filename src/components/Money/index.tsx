@@ -3,8 +3,8 @@ import React from "react";
 import './index.less';
 
 const scaleLastNum = (data: number = 0): any => {
-  if (!data) {
-    return null;
+  if (typeof data === null) {
+    return data;
   }
   let value = Number(data);
   let result = value.toFixed(2);

@@ -2,6 +2,7 @@ import { View, Text, Picker } from "@tarojs/components";
 import React, { useState } from "react";
 import { dateFormat } from "../../utils";
 import { CButton } from "../Button";
+import Money from "../Money";
 import './index.less';
 
 const modeList = ['月', '年'];
@@ -10,27 +11,36 @@ const pickerStyle = {
   paddingTop: '1px'
 }
 
-export const ChartBar = (props) => {
-  const { style, date, mode, setDate, setMode, sum } = props;
+const getDateFmt = (value) => {
+  return value === '0' ? 'YYYY-mm' : 'YYYY';
+}
 
+const ChartBar = (props) => {
+  const { style, param, onParamChange, sum } = props;
+  const { date, mode } = param;
 
   const modeOnChange = (e) => {
     const { detail: { value } } = e;
-    setMode(value);
-    const fmt = value === '0' ? 'YYYY-mm' : 'YYYY';
-    setDate(dateFormat(new Date(), fmt))
+    onParamChange({
+      mode: value,
+      date: dateFormat(new Date(), getDateFmt(value))
+    })
   }
 
   const dateOnChange = (e) => {
     const { detail: { value } } = e;
-    setDate(value)
+    onParamChange({
+      ...param,
+      date: dateFormat(new Date(value), getDateFmt(mode))
+    })
   }
 
   return (
     <View style={{ ...style }} className='bar-container flex  column-center just-between'>
-      <View className='action'>
+      <View className='action flex row-center column-center'>
         {/* <Text className='triangle icon iconfont icon-filterguolv'></Text> */}
-        <Text >支出：{sum}</Text>
+        <View >合计支出：</View>
+        <Money value={sum} />
       </View>
       <View className='date flex'>
         <Picker mode='selector' style={{ marginRight: '10px', ...pickerStyle }} range={modeList} onChange={modeOnChange}>
@@ -54,3 +64,5 @@ export const ChartBar = (props) => {
     </View>
   )
 }
+
+export default React.memo(ChartBar);

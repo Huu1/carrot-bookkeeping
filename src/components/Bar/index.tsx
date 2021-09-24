@@ -25,13 +25,13 @@ export default class PieChart extends React.PureComponent<any, any> {
   }
   onInit = (config) => {
     Chart.plugins.register([Legend, Tooltip, Guide, PieLabel]);
-    const chart = new Chart(config);
-
+    const chart = new Chart({...config});
+    
     chart.source(this.props.data);
     chart.coord('polar', {
       transposed: true,
       radius: 1,
-      innerRadius: 0.6
+      innerRadius: 0.6,
     });
     chart.axis(false);
     chart.legend(false);
@@ -39,7 +39,7 @@ export default class PieChart extends React.PureComponent<any, any> {
     const guide = chart.guide()
       .text({
         position: ['50%', '50%'],
-        content: '',
+        content: '支出占比',
         style: {
           fontSize: 14
         }
@@ -47,10 +47,11 @@ export default class PieChart extends React.PureComponent<any, any> {
     chart.interval()
       .position('const*value')
       .adjust('stack')
-      .color('title', ['#1890FF', '#13C2C2', '#2FC25B', '#FACC14']);
+      .color('title', this.props.data.map(i=>i.color.trim()));
     chart.pieLabel({
       sidePadding: 30,
       activeShape: true,
+      skipOverlapLabels:true,
       // eslint-disable-next-line @typescript-eslint/no-shadow
       label1: function label1(data: any) {
         return {
@@ -70,7 +71,7 @@ export default class PieChart extends React.PureComponent<any, any> {
         // eslint-disable-next-line @typescript-eslint/no-shadow
         const data = ev.data;
         if (data) {
-          guide.content = data.title + "\n" + data.value;
+          guide.content = data.title + "\n" + data.ratio+'%';
           guide.repaint();
         }
       }

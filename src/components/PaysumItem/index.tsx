@@ -15,7 +15,10 @@ export const PaySumItem = React.memo((props: any) => {
   } } = props;
 
 
-  const right = (1 - item.ratio) * 100;
+
+  let right = (1 - item.ratio) * 100;
+  right = right > 95 ? 95 : right;
+  
   return (
     <View className='container flex column-center'>
       <View className='icon'>
