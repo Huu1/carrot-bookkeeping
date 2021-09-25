@@ -27,8 +27,6 @@ const Charts = () => {
 
   const [sum, setSum] = useState(0);
 
-  const [loading, setLoading] = useState(false);
-
   useDidShow(() => {
     fetchData();
   })
@@ -40,7 +38,6 @@ const Charts = () => {
       date: dateValue
     }
     Taro.showNavigationBarLoading();
-    setLoading(true);
     http('/v1/expend/count', 'POST', params).then(res => {
       const { error_code: code, data: { list = [], sum: all = 0 } } = res;
       if (code === 0) {
@@ -50,9 +47,6 @@ const Charts = () => {
     }).catch((res) => {
       console.log(res);
     }).finally(() => {
-      setTimeout(() => {
-        setLoading(false);
-      }, 200);
       Taro.hideNavigationBarLoading();
     })
   }
@@ -67,19 +61,6 @@ const Charts = () => {
 
   const chartBar = () => {
     return <ChartBar sum={sum} onParamChange={onParamChange} param={param} style={style} />
-  }
-
-  // if(loading) {
-  //   return (
-  //     chartBar()
-  //   )
-  // }
-
-  if (!loading && Array.isArray(data) && data.length === 0) {
-    return <View style={{ marginTop: '55px' }}>
-      {chartBar()}
-      <Empty />
-    </View>
   }
 
   return (
@@ -97,7 +78,6 @@ const Charts = () => {
           return {
             const: 'const',
             title: i.category.title,
-            color: i.category.color,
             value: +i.value,
             ratio: (i.ratio * 100).toFixed(2)
           }

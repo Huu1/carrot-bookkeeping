@@ -11,11 +11,14 @@ export const SwipeAction = (props) => {
     let refs = ref.current;
     let start = 0;
     const touchstart = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       const { clientX } = e.touches[0];
       start = clientX
     }
     const _move = (e) => {
       e.preventDefault();
+      e.stopPropagation();
       const { clientX } = e.touches[0];
       let moveLength = clientX - start;
       if (moveLength < -50) {
@@ -27,7 +30,8 @@ export const SwipeAction = (props) => {
     const up = (e) => {
       start = 0;
     }
-    const move = throttle(_move, 10)
+    // const move = throttle(_move, 10)
+    const move = _move;
     refs.addEventListener('touchstart', touchstart);
     refs.addEventListener('touchmove', move);
     refs.addEventListener('toucheup', up);
@@ -38,14 +42,18 @@ export const SwipeAction = (props) => {
     }
   }, [])
 
+  const onClickHandle = () => {
+    onCallback(id);
+  }
+
   return (
-    <View className='swipe-wrap'>
+    <View className='swipe-wrap' >
       <View className='swipe-container' ref={ref}>
         <View className='content'>
           {props.children}
         </View>
-        <View className='action-aera flex row-center column-center' onClick={() => onCallback(id)}>
-          <Text className='triangle icon iconfont icon-changyonggoupiaorenshanchu'></Text>
+        <View  className='action-aera flex row-center column-center' onClick={onClickHandle}>
+          <Text  className='triangle icon iconfont icon-changyonggoupiaorenshanchu'></Text>
         </View>
       </View>
     </View>

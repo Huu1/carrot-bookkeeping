@@ -10,7 +10,7 @@ const PayItem = (props) => {
   const { date, list } = data;
 
   const week = weekMap[new Date(date).getDay()] || '';
-
+  
   const all = list.reduce((pre, cur) => pre += (+cur.value), 0).toFixed(2);
 
   const onCallback = (id) => {

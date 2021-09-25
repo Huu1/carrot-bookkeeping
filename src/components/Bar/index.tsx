@@ -18,15 +18,17 @@ import '@antv/f2/lib/geom/adjust/stack'
 
 import F2Canvas from '../j-canvas';
 
+const color = ['#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864', '#8543E0', '#3436C7', '#223273','#9192ab','#7898e1','#efa666']
 
-export default class PieChart extends React.PureComponent<any, any> {
+
+export default class PieChart extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
   }
+
   onInit = (config) => {
     Chart.plugins.register([Legend, Tooltip, Guide, PieLabel]);
-    const chart = new Chart({...config});
-    
+    const chart = new Chart({ ...config, padding: [35] });
     chart.source(this.props.data);
     chart.coord('polar', {
       transposed: true,
@@ -47,11 +49,11 @@ export default class PieChart extends React.PureComponent<any, any> {
     chart.interval()
       .position('const*value')
       .adjust('stack')
-      .color('title', this.props.data.map(i=>i.color.trim()));
+      .color('title', color);
     chart.pieLabel({
       sidePadding: 30,
       activeShape: true,
-      skipOverlapLabels:true,
+      skipOverlapLabels: true,
       // eslint-disable-next-line @typescript-eslint/no-shadow
       label1: function label1(data: any) {
         return {
@@ -71,7 +73,7 @@ export default class PieChart extends React.PureComponent<any, any> {
         // eslint-disable-next-line @typescript-eslint/no-shadow
         const data = ev.data;
         if (data) {
-          guide.content = data.title + "\n" + data.ratio+'%';
+          guide.content = data.title + "\n" + data.ratio + '%';
           guide.repaint();
         }
       }

@@ -25,8 +25,6 @@ const getPageStyle = (navbarHeight: number, other: number | string = 0) => {
 const AddPay = () => {
   const { title, navbarHeight } = useAppData();
 
-  // const
-
 
   const { systemData = [] } = useSelector((state: any) => state.app);
   const [classList] = useState(splitLineGroup(systemData));

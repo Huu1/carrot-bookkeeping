@@ -1,8 +1,7 @@
-import Taro, { getCurrentPages, useDidShow, useReachBottom } from "@tarojs/taro";
-import React, { useEffect, useMemo, useState } from 'react';
+import Taro, { getCurrentPages, useDidShow } from "@tarojs/taro";
+import React, { useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { View, Text } from '@tarojs/components';
-import { useRequest } from '../../utils/useHttp';
 import TopPickerBar from '../../components/TopPickerBar';
 import PayItem from '../../components/PayItem';
 import { Empty } from '../../components/Empty';
@@ -10,20 +9,18 @@ import { Error } from '../../components/Error';
 import { dateFormat, setMonthValue } from '../../utils';
 import { delPayItem } from './service';
 import './index.less';
+import http from "../../utils/http";
 
 const pickHeight = 55;
 
 export const initTime = dateFormat(new Date(), 'YYYY-mm');
 
 const getMonthUrl = (date = initTime) => {
-  return `/v1/expend/month/?date=${date}&time=${Date.now()}`;
+  return `/v1/expend/month/?date=${date}`;
 }
 
 const Index = () => {
-
-  useReachBottom(() => {
-    console.log('xxx');
-  })
+  const dispatch = useDispatch();
 
   useDidShow(() => {
     const pages: any = getCurrentPages();
@@ -31,35 +28,72 @@ const Index = () => {
     const newDate = currPageData.newDate;
     if (newDate) {
       setDate(newDate);
-      setUrl(getMonthUrl(newDate));
+      fetchData(newDate);
       currPageData.newDate = null;
+    } else {
+      fetchData(date);
     }
   })
 
-  const dispatch = useDispatch();
-
-  // 总览数据
-  const { state, setUrl } = useRequest(getMonthUrl(), "GET", {});
-  const { isLoading, isError, data: dataResult } = state;
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  const { data: { sum, budget } = { sum: 0.00, budget } } = dataResult;
-
   // 年月
   const [date, setDate] = useState<string>(initTime);
+  const [{ sum, list }, setData] = useState({
+    sum: 0,
+    list: [],
+  });
+  const [{ isLoading, isError }, setStatus] = useState({
+    isLoading: false,
+    isError: false,
+  })
 
-  const monthData = useMemo(() => {
-    const { data: { list = [] } = { list: [] } } = dataResult;
-    dispatch({
-      type: 'app/setBudget',
-      payload: budget
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const fetchData = (date: any) => {
+    Taro.showNavigationBarLoading();
+    setStatus((p) => ({
+      ...p,
+      isLoading: true,
+    }))
+    http(getMonthUrl(date), 'GET', {}).then(res => {
+      const { error_code: code, data: dataResult } = res;
+      // eslint-disable-next-line @typescript-eslint/no-shadow
+      const { sum = 0.00, budget, list = [] } = dataResult;
+      if (code === 0) {
+        dispatch({
+          type: 'app/setBudget',
+          payload: budget
+        })
+        setData({
+          sum,
+          list: setMonthValue(list),
+        })
+        setStatus((p) => ({
+          ...p,
+          isLoading: false,
+        }))
+      } else {
+        setStatus((p) => ({
+          isError: true,
+          isLoading: false,
+        }))
+      }
+    }).catch((res) => {
+      console.log(res);
+      setStatus((p) => ({
+        ...p,
+        isError: false,
+      }))
+    }).finally(() => {
+      setStatus((p) => ({
+        ...p,
+        isLoading: false,
+      }))
+      Taro.hideNavigationBarLoading();
     })
-    return setMonthValue(list);
-  }, [dataResult, budget, dispatch]);
-
+  }
 
   const dateChangeHandle = (value: string) => {
     setDate(value);
-    setUrl(getMonthUrl(value));
+    fetchData(value);
   }
 
   const delCallback = (id: number) => {
@@ -72,7 +106,7 @@ const Index = () => {
           // Taro.hideLoading();
           const { error_code, msg } = result;
           if (error_code === 0) {
-            setUrl(getMonthUrl(date));
+            fetchData(date);
           } else {
             Taro.showToast({ title: msg });
           }
@@ -89,17 +123,17 @@ const Index = () => {
 
   return (
     <>
-      <TopPickerBar  date={date} sum={sum} height={pickHeight} dateChangeHandle={dateChangeHandle} />
+      <TopPickerBar date={date} sum={sum} height={pickHeight} dateChangeHandle={dateChangeHandle} />
       <View style={pageStyle}>
         {
           isError && <Error />
         }
         {
-          !isError && !isLoading && monthData.length === 0 &&
+          !isError && !isLoading && list.length === 0 &&
           <Empty />
         }
         {
-          monthData && monthData.length > 0 && monthData.map((item) => {
+          list && list.length > 0 && list.map((item) => {
             return <PayItem
               delCallback={delCallback}
               key={item.id}

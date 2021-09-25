@@ -32,10 +32,6 @@ const AddExpenditure = () => {
 
   const confirmPay = (data: { value: string, date: string, tip: string }) => {
     const { tip, date, value } = data;
-
-    console.log(classify);
-
-
     if (!value || value.charAt(value.length - 1) === '.' || value === '0') {
       Taro.showToast({
         title: '请输入正确的金额',

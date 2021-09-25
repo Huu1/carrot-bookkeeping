@@ -70,7 +70,7 @@ export default {
       return { ...state, budget: payload };
     },
     setUser(state, { payload }) {
-      return { ...state, user: { ...state.user, ...payload } };
+      return { ...state, user: payload };
     },
   },
 };

@@ -4,7 +4,7 @@ import models from "./dva/models";
 import dva from "./dva/index";
 import './app.less';
 
-const dvaApp = dva.createApp({
+export const dvaApp = dva.createApp({
   initialState: {},
   models: models,
 });

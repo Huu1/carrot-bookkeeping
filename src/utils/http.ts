@@ -1,14 +1,28 @@
 import Taro from "@tarojs/taro";
+import { dvaApp } from "../app";
 import { encodeToken } from './index';
+
 
 export const BASE_URL = 'http://192.168.31.98:10086';
 // export const BASE_URL = 'http://192.168.0.109:10086';
+
+const notAuthApi = [
+  '/v1/category/list'
+]
+
 
 // api请求封装
 const http = function (url: string, method: any, paramet: object) {
 
   // 获取token
   const token = Taro.getStorageSync('token');
+  if (!token && !notAuthApi.includes(url)) {
+    Taro.showToast({
+      icon: "none",
+      title: "请到我的页面~登录获得授权后，即可使用此功能"
+    })
+    return Promise.reject({ info: '未登录' });
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const setParam = (url, method, paramet) => {
@@ -26,8 +40,20 @@ const http = function (url: string, method: any, paramet: object) {
         // Taro.hideLoading()
         switch (res.statusCode) {
           case 200:
-            return resolve(res.data)
+            return resolve(res.data);
           case 404:
+            return reject(res);
+          case 401:
+            Taro.removeStorageSync('userInfo');
+            Taro.showToast({
+              icon: "none",
+              title: "请到我的页面~登录获得授权后，即可使用此功能"
+            })
+            const store = dvaApp.getStore();
+            store.dispatch({
+              type: 'app/setUser',
+              payload: null
+            })
             return reject(res);
           case 403:
             return reject(res.data);
@@ -43,53 +69,7 @@ const http = function (url: string, method: any, paramet: object) {
   const featchData = setParam(url, method, paramet);
 
   return new Promise<any>((resolve, reject) => {
-    if (!token) {
-      Taro.login({
-        success: function (res) {
-          if (res.code) {
-            //发起网络请求
-            Taro.request({
-              url: `${BASE_URL}/v1/token`,
-              method: 'POST',
-              data: {
-                account: res.code,
-                type: 100
-              },
-              success: function (params) {
-                const { statusCode, data } = params;
-                if (statusCode === 200) {
-                  Taro.setStorageSync('token', data.token);
-                  return featchData(resolve, reject, data.token);
-                } else {
-                  const title = '服务器登录异常';
-                  Taro.showToast({
-                    title,
-                    icon: 'none'
-                  });
-                  return reject(title);
-                }
-              },
-              fail: function (params) {
-                const title = '登录失败';
-                Taro.showToast({
-                  title
-                });
-                return reject(title);
-              }
-            })
-          } else {
-            const title = '获取小程序code失败'
-            Taro.showToast({
-              title
-            });
-            return reject(title);
-          }
-        }
-      })
-    } else {
-      console.log('已登录');
-      return featchData(resolve, reject, token);
-    }
+    return featchData(resolve, reject, token);
   })
 }
 

@@ -6,7 +6,7 @@
     width: calc(100% + 120px);
     transform: translate3d(0, 0, 0);
     display: flex;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     .content {
       flex: 1;
     }
@@ -19,5 +19,52 @@
         font-size: 36px;
       }
     }
+  }
+}
+
+.shake() {
+  animation: shake 0.8s linear 0s 1 normal;
+  animation-fill-mode: both;
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10% {
+    transform: translateX(-18px);
+  }
+
+  20% {
+    transform: translateX(16px);
+  }
+
+  30% {
+    transform: translateX(-14px);
+  }
+
+  40% {
+    transform: translateX(12px);
+  }
+
+  50% {
+    transform: translateX(-10px);
+  }
+
+  60% {
+    transform: translateX(8px);
+  }
+
+  70% {
+    transform: translateX(-6px);
+  }
+
+  80% {
+    transform: translateX(4px);
+  }
+
+  90% {
+    transform: translateX(-2px);
   }
 }

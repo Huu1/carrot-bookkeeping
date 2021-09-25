@@ -5,6 +5,7 @@ import { View, Text, Swiper, SwiperItem, MovableArea, MovableView, Button } from
 import NavBar from "../../components/NavBar";
 import { useAppData, useNavInfo } from '../../utils/hooks';
 import { SwipeAction } from '../../components/SwipeAction';
+import { SwitchTriangle } from '../../components/SwitchTriangle';
 
 const pickHeight = 55;
 
@@ -49,12 +50,15 @@ const Index = () => {
 
   const { systemData = [] } = useSelector((state: any) => state.app);
 
-  splitLineGroup(systemData);
+  // console.log(systemData);
+  
+  // splitLineGroup(systemData);
 
   return (
     <>
       <NavBar />
       <Button onClick={clickHandlke}>click</Button>
+      <SwitchTriangle />
       <View style={{ marginTop: `${navbarHeight + pickHeight}px` }}>
         <SwipeAction >
           <View style={{ height: "40px", background: "skyblue" }}>

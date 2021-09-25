@@ -9,14 +9,11 @@ const defaultAvatar = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
 
 const appMenu = [
   [
-    { icon: "icon-beizhu", name: "提个建议" },
-    { icon: "icon-gengxin", name: "更新小程序" },
-    { icon: "icon-fenlei-", name: "设置类别" },
-    { icon: "icon-guanyu1", name: "设置预算" },
+    { icon: "icon-fenlei-", name: "设置类别", page: '' },
+    { icon: "icon-guanyu1", name: "设置预算", page: 'Budget' },
+    { icon: "icon-beizhu", name: "提个建议", page: 'Advise' },
+    { icon: "icon-guanyu1", name: "关于我们", page: '' },
   ],
-  [
-    { icon: "icon-guanyu1", name: "关于我们" },
-  ]
 ]
 
 const UserCenter = () => {
@@ -46,9 +43,24 @@ const UserCenter = () => {
   });
 
 
-  useDidShow(async () => {
+  useDidShow(() => {
     if (user) {
       getUserBook();
+      const pages: any = getCurrentPages();
+      const currPageData: any = pages[pages.length - 1].data;
+      const type = currPageData.type;
+      if (type) {
+        currPageData.type=null;
+        setTimeout(() => {
+          Taro.showToast({
+            icon: 'none',
+            title: "已收到您的反馈，请关注后续的改进~",
+            duration: 1500
+          })
+        }, 500);
+      }
+    }else {
+
     }
   })
 
@@ -67,6 +79,17 @@ const UserCenter = () => {
     } catch (error) {
       Taro.hideNavigationBarLoading();
     }
+  }
+
+  const menuClickHandle = (page) => {
+    if (!page) {
+      Taro.showToast({
+        icon: 'none',
+        title: '暂未开放'
+      });
+      return;
+    }
+    Taro.navigateTo({ url: `/pages/${page}/index` })
   }
 
 
@@ -124,9 +147,9 @@ const UserCenter = () => {
           appMenu.map((line, index) => {
             return <View className='menu-line flex just-between' key={index}>
               {
-                line.map(({ icon, name }) => {
+                line.map(({ icon, name, page }) => {
                   return (
-                    <View className='menu-item' key={name}>
+                    <View className='menu-item' key={name} onClick={() => menuClickHandle(page)}>
                       <Text className={`icon iconfont ${icon}`}></Text>
                       <View className='text'>{name}</View>
                     </View>
@@ -141,8 +164,8 @@ const UserCenter = () => {
         </View>
       </View>
       <View className='share flex-column row-center column-center'>
-        <Button size='default' style={{ width: '100%', marginBottom: '5px', height: '35px', lineHeight: '35px' }} type='warn'>推荐给好朋友~</Button>
-        <Text>v1.0</Text>
+        <Button size='default' style={{ width: '100%', marginBottom: '5px', height: '35px', lineHeight: '35px' }} type='warn'>推荐给朋友~</Button>
+        {/* <Text>v1.0</Text> */}
       </View>
     </View>
   )

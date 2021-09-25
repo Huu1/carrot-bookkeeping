@@ -2,8 +2,6 @@ import React from 'react'
 import Taro from '@tarojs/taro'
 import { Canvas } from '@tarojs/components'
 
-import { my as F2Context } from '@antv/f2-context'
-
 export interface CanvasProps {
   id: string
   className: string
@@ -25,7 +23,7 @@ function wrapEvent(e) {
 }
 
 
-export default class F2Canvas extends React.PureComponent<CanvasProps, CanvasState> {
+export default class F2Canvas extends React.Component<CanvasProps, CanvasState> {
   // eslint-disable-next-line react/sort-comp
   static INSTANCE_COUNTER = 0;
 
