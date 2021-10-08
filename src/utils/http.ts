@@ -1,9 +1,13 @@
 import Taro from "@tarojs/taro";
-import { dvaApp } from "../app";
+import  dvaApp  from "../dva/index";
 import { encodeToken } from './index';
 
 
-export const BASE_URL = 'http://192.168.31.98:10086';
+// export const BASE_URL = 'http://192.168.31.98:10086';
+
+// 线上
+export const BASE_URL = 'http://1.116.75.166:10086';
+
 // export const BASE_URL = 'http://192.168.0.109:10086';
 
 const notAuthApi = [
@@ -23,7 +27,6 @@ const http = function (url: string, method: any, paramet: object) {
     })
     return Promise.reject({ info: '未登录' });
   }
-
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const setParam = (url, method, paramet) => {
     // eslint-disable-next-line @typescript-eslint/no-shadow
